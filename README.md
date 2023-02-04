@@ -48,18 +48,18 @@ func main() {
 
         "corge": [
             // Escape sequences are available
-            'Hello, World!\r\n",
+            'Hello, World!\r\n',
 
             // Unicode escape sequences (\uXXXX and \u{XXXXXX}) are available
-            "\u0048\u0065\u006c\u006c\u006f\u002c\u0020\u0057\u006f\u0072\u006c\u0064\u0021"
+            "\u0048\u0065\u006c\u006c\u006f\u002c\u0020\u0057\u006f\u0072\u006c\u0064\u0021",
 
             // Byte escape sequence is also available
-            "\x48\x65\x6c\x6c\x6f\x2c\x20\x57\x6f\x72\x6c\x64\x21"
+            "\x48\x65\x6c\x6c\x6f\x2c\x20\x57\x6f\x72\x6c\x64\x21",
 
             // Multiline string literal
-            ` +
+            ` + "`" +
             `Tempor adipiscing amet velit ipsum diam ut ea takimata lorem gubergren sed laoreet.
-            Congue possim facilisis sea justo dolore amet eos dolores est magna.`  + `
+            Congue possim facilisis sea justo dolore amet eos dolores est magna.`  + "`" + `
         ],
 
         "grault": [
