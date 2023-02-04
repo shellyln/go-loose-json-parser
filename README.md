@@ -79,6 +79,11 @@ func main() {
         fred: 10,
     }`)
 
+    if err != nil {
+        fmt.Printf("Parse: error = %v\n", err)
+        return
+    }
+
     fmt.Printf("Parsed = %v\n", parsed)
 }
 ```
