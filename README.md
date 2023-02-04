@@ -46,7 +46,7 @@ func main() {
         // Non-ASCII identifiers can also be used.
         あいうえお: 5,
 
-        "corge" [
+        "corge": [
             // Escape sequences are available
             'Hello, World!\r\n",
 
