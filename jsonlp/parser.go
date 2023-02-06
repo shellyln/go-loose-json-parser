@@ -500,6 +500,9 @@ func document() ParserFn {
 	)
 }
 
+// src:     Loose JSON
+// interop: If true, replace NaN, Infinity by null
+// parsed:  nil | []any | map[string]any | float64 | string | bool | time.Time
 func Parse(s string, interop bool) (interface{}, error) {
 	ctx := *NewStringParserContext(s)
 	ctx.Tag = parseOptions{interop: interop}
