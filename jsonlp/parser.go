@@ -493,7 +493,10 @@ func document() ParserFn {
 			objectValue(),
 			erase(sp0()),
 		),
-		End(),
+		First(
+			End(),
+			Error("Expect terminatiion"),
+		),
 	)
 }
 
