@@ -423,7 +423,7 @@ func objectKeyValuePair() ParserFn {
 	return FlatGroup(
 		objectKey(),
 		sp0(),
-		erase(First(CharClass(":"), CharClass("=>"))),
+		erase(First(CharClass(":"), CharClass("=>"), CharClass("="))),
 		sp0(),
 		First(
 			primitiveValue(),

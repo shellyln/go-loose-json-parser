@@ -149,6 +149,10 @@ func main() {
 { "foo" => 1 }
 ```
 
+```js
+{ "foo" = 1 }
+```
+
 ### Number
 
 ```js

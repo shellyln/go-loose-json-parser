@@ -1,5 +1,8 @@
 # Changelog
 
+# v0.0.4
+* Added '=' to the key/value separator in maps.
+
 # v0.0.3
 * Add wasm example.
 

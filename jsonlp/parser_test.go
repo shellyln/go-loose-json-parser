@@ -196,7 +196,7 @@ func TestParse(t *testing.T) {
 		name: "10a",
 		args: args{s: `{亜a_$:[1,/**/2,'3abd',4,-Infinity,null,0x12_34,undefined,true,false,` +
 			`2020-01-02,18:20:30.001,2020-01-02T18:20:30.001Z,{_c1:1,$c1:-1,` +
-			`'d'=>2,'dd':3,"ddd":4,` + "`dddd`" + ` : 5,f1:["eee"],},],bb亜:-12.34,}`},
+			`'d'=>2,'dd':3,"ddd"=4,` + "`dddd`" + ` : 5,f1:["eee"],},],bb亜:-12.34,}`},
 		want: map[string]interface{}{
 			"亜a_$": []interface{}{
 				float64(1), float64(2), "3abd", float64(4), math.Inf(-1), nil, float64(4660), nil,
@@ -233,7 +233,7 @@ func TestParse(t *testing.T) {
 					$c1 /**/ : -1  ,
 					'd' => /**/ 2 ,
 					'dd' : 3 , // comment
-					"ddd" : 4 ,
+					"ddd" = 4 ,
 					` + "`dddd`" + ` : 5 ,
 					f1 : [ /**/  "eee" /**/  ] , /**/
 				} , /**/ 
@@ -275,7 +275,7 @@ func TestParse(t *testing.T) {
 					$c1 /**/ : -1  ,
 					'd' => /**/ 2 ,
 					'dd' : 3 , // comment
-					"ddd" : 4 ,
+					"ddd" = 4 ,
 					` + "`dddd`" + ` : 5 ,
 					f1 : [ /**/  "eee" /**/  ] , /**/
 				} , /**/ 
@@ -299,7 +299,7 @@ func TestParse(t *testing.T) {
 					$c1 /**/ : -1  ,
 					'd' => /**/ 2 ,
 					'dd' : 3 , // comment
-					"ddd" : 4 aaa ,
+					"ddd" = 4 aaa ,
 					` + "`dddd`" + ` : 5 ,
 					f1 : [ /**/  "eee" /**/  ] , /**/
 				} , /**/ 
