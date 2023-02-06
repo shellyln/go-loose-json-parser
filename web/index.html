@@ -91,7 +91,7 @@
 
     <script>
         const myCodeMirrorIn = CodeMirror.fromTextArea(document.querySelector('#loosejson'), {mode:'javascript', lineNumbers: true});
-        const myCodeMirrorOut = CodeMirror.fromTextArea(document.querySelector('#result-area'), {mode:'javascript', lineNumbers: true});
+        const myCodeMirrorOut = CodeMirror.fromTextArea(document.querySelector('#result-area'), {mode:'javascript', lineNumbers: true, lineWrapping: true});
 
         function execNormalize(event) {
             event.preventDefault();
