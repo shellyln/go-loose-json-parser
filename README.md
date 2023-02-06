@@ -17,7 +17,9 @@ import (
 )
 
 func main() {
-    // parsed: nil | []any | map[string]any | float64 | string | bool | time.Time
+    // src:     Loose JSON
+    // interop: If true, replace NaN, Infinity by null
+    // parsed:  nil | []any | map[string]any | float64 | string | bool | time.Time
     parsed, err := jsonlp.Parse(`
     # Hash comment
     {
@@ -77,7 +79,7 @@ func main() {
 
         // Trailing commas are allowed.
         fred: 10,
-    }`)
+    }`, false)
 
     if err != nil {
         fmt.Printf("Parse: error = %v\n", err)

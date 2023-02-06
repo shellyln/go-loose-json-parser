@@ -10,6 +10,10 @@ import (
 	. "github.com/shellyln/takenoco/string"
 )
 
+type parseOptions struct {
+	interop bool
+}
+
 var (
 	documentParser ParserFn
 )
@@ -107,7 +111,13 @@ func positiveInfinityValue() ParserFn {
 			Seq("Infinity"),
 		)),
 		WordBoundary(),
-		Zero(positiveInfinityAst),
+		func(ctx ParserContext) (ParserContext, error) {
+			if ctx.Tag.(parseOptions).interop {
+				return Zero(nilAst)(ctx)
+			} else {
+				return Zero(positiveInfinityAst)(ctx)
+			}
+		},
 	)
 }
 
@@ -115,7 +125,13 @@ func negativeInfinityValue() ParserFn {
 	return FlatGroup(
 		erase(Seq("-Infinity")),
 		WordBoundary(),
-		Zero(negativeInfinityAst),
+		func(ctx ParserContext) (ParserContext, error) {
+			if ctx.Tag.(parseOptions).interop {
+				return Zero(nilAst)(ctx)
+			} else {
+				return Zero(negativeInfinityAst)(ctx)
+			}
+		},
 	)
 }
 
@@ -123,7 +139,13 @@ func nanValue() ParserFn {
 	return FlatGroup(
 		erase(Seq("NaN")),
 		WordBoundary(),
-		Zero(nanAst),
+		func(ctx ParserContext) (ParserContext, error) {
+			if ctx.Tag.(parseOptions).interop {
+				return Zero(nilAst)(ctx)
+			} else {
+				return Zero(nanAst)(ctx)
+			}
+		},
 	)
 }
 
@@ -475,8 +497,11 @@ func document() ParserFn {
 	)
 }
 
-func Parse(s string) (interface{}, error) {
-	out, err := documentParser(*NewStringParserContext(s))
+func Parse(s string, interop bool) (interface{}, error) {
+	ctx := *NewStringParserContext(s)
+	ctx.Tag = parseOptions{interop: interop}
+
+	out, err := documentParser(ctx)
 	if err != nil {
 		pos := GetLineAndColPosition(s, out.SourcePosition, 4)
 		return nil, errors.New(

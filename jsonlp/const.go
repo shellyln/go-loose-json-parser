@@ -31,12 +31,12 @@ var falseAst = Ast{
 }
 
 // Parser constant value
-var zeroStrAst = Ast{
-	OpCode:    0,
-	ClassName: "String",
-	Type:      AstType_String,
-	Value:     "",
-}
+// var zeroStrAst = Ast{
+// 	OpCode:    0,
+// 	ClassName: "String",
+// 	Type:      AstType_String,
+// 	Value:     "",
+// }
 
 // Parser constant value
 var positiveInfinityAst = Ast{

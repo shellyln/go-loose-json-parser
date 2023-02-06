@@ -24,7 +24,7 @@ type testMatrixItem struct {
 func runMatrixParse(t *testing.T, tests []testMatrixItem) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := jsonlp.Parse(tt.args.s)
+			got, err := jsonlp.Parse(tt.args.s, false)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("%v: Parse() error = %v, wantErr %v", tt.name, err, tt.wantErr)
 				return
