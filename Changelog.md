@@ -1,5 +1,8 @@
 # Changelog
 
+# v0.0.5
+* Added dotted key syntax.
+
 # v0.0.4
 * Added '=' to the key/value separator in maps.
 

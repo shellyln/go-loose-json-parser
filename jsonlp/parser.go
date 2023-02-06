@@ -410,9 +410,42 @@ func identifier() ParserFn {
 	)
 }
 
+func dottedIdentifier() ParserFn {
+	return Trans(
+		FlatGroup(
+			First(
+				stringValue(),
+				identifier(),
+			),
+			erase(sp0()),
+			OneOrMoreTimes(
+				erase(CharClass(".")),
+				erase(sp0()),
+				First(
+					stringValue(),
+					identifier(),
+				),
+			),
+		),
+		func(ctx ParserContext, asts AstSlice) (AstSlice, error) {
+			length := len(asts)
+			v := make([]string, length)
+			for i := 0; i < length; i++ {
+				v[i] = asts[i].Value.(string)
+			}
+			return AstSlice{{
+				ClassName: "DottedIdenitifier",
+				Type:      AstType_ListOfAny,
+				Value:     v,
+			}}, nil
+		},
+	)
+}
+
 func objectKey() ParserFn {
 	return Trans(
 		First(
+			dottedIdentifier(),
 			stringValue(),
 			identifier(),
 		),
@@ -472,7 +505,33 @@ func objectValue() ParserFn {
 			length := len(asts)
 			v := make(map[string]interface{})
 			for i := 0; i < length; i += 2 {
-				v[asts[i].Value.(string)] = asts[i+1].Value
+				switch w := asts[i].Value.(type) {
+				case string:
+					v[w] = asts[i+1].Value
+				case []string:
+					p := &v
+					for j, key := range w {
+						if j == len(w)-1 {
+							(*p)[key] = asts[i+1].Value
+						} else {
+							if next, ok := (*p)[key]; ok {
+								switch nm := next.(type) {
+								case map[string]interface{}:
+									p = &nm
+								default:
+									// overwrite
+									ow := make(map[string]interface{})
+									(*p)[key] = ow
+									p = &ow
+								}
+							} else {
+								nm := make(map[string]interface{})
+								(*p)[key] = nm
+								p = &nm
+							}
+						}
+					}
+				}
 			}
 			return AstSlice{{
 				ClassName: "Object",

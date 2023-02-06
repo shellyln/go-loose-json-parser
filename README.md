@@ -153,6 +153,16 @@ func main() {
 { "foo" = 1 }
 ```
 
+```js
+{ foo.bar.baz = 1 }
+// -> { "foo": { "bar": { "baz": 1 } } }
+```
+
+```js
+{ "foo".bar."baz" = 1 }
+// -> { "foo": { "bar": { "baz": 1 } } }
+```
+
 ### Number
 
 ```js

@@ -342,6 +342,40 @@ func TestParse(t *testing.T) {
 			float64(9007199254740992), // MAX_SAFE_INTEGER+1 == MAX_SAFE_INTEGER+2
 		},
 		wantErr: false,
+	}, {
+		name: "13a",
+		args: args{s: `{foo.bar.baz=123}`},
+		want: map[string]interface{}{
+			"foo": map[string]interface{}{
+				"bar": map[string]interface{}{
+					"baz": float64(123),
+				},
+			},
+		},
+		wantErr: false,
+	}, {
+		name: "13b",
+		args: args{s: `{"foo"."bar"."baz"=123}`},
+		want: map[string]interface{}{
+			"foo": map[string]interface{}{
+				"bar": map[string]interface{}{
+					"baz": float64(123),
+				},
+			},
+		},
+		wantErr: false,
+	}, {
+		name: "13c",
+		args: args{s: `{foo.bar.baz=123, foo.bar.qux:234}`},
+		want: map[string]interface{}{
+			"foo": map[string]interface{}{
+				"bar": map[string]interface{}{
+					"baz": float64(123),
+					"qux": float64(234),
+				},
+			},
+		},
+		wantErr: false,
 	}}
 
 	runMatrixParse(t, tests)
