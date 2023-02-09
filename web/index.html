@@ -2,20 +2,20 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title>Loose JSON normalizer</title>
+    <title>Loose JSON | TOML normalizer</title>
 
     <script src="wasm_exec.js"></script>
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.1/codemirror.min.css"
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.11/codemirror.min.css"
         integrity="sha512-uf06llspW44/LZpHzHT6qBOIVODjWtv4MxCricRxkzvopAlSWnTf6hpZTFxuuZcuNE9CBQhqE0Seu1CoRk84nQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.1/codemirror.min.js"
-        integrity="sha512-UczTlJPfdNqI2hb02wot6lMzwUNtjywtRSz+Ut/Q+aR0/D6tLkIxRB+GgjxjX6PSA+0KrQJuwn4z6J+3EExilg=="
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.11/codemirror.min.js"
+        integrity="sha512-rdFIN28+neM8H8zNsjRClhJb1fIYby2YCNmoqwnqBDEvZgpcp7MJiX8Wd+Oi6KcJOMOuvGztjrsI59rly9BsVQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.1/mode/javascript/javascript.min.js"
-        integrity="sha512-IS1FyxQkiJHT1SAvLXBaJu1UTFSIw0GT/DuzxHl69djqyLoEwGmR2davcZUnB8M7ppi9nfTGZR/vdfqmWt+i6A=="
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.11/mode/javascript/javascript.min.js"
+        integrity="sha512-Cbz+kvn+l5pi5HfXsEB/FYgZVKjGIhOgYNBwj4W2IHP2y8r3AdyDCQRnEUqIQ+6aJjygKPTyaNT2eIihaykJlw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.11/mode/toml/toml.min.js"
+        integrity="sha512-O6QYGRZVa6FLNVTWPdLXXiVC4pNCVA6NNVW29i7qHFprs/Wat4QrjSKjINcoCT+2IySTFmfIoIp2yZmWoafQsg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <style>
@@ -60,7 +60,7 @@
     </script>
 </head>
 <body>
-    <h4 style="margin: 3px;">Loose JSON normalizer</h4>
+    <h4 style="margin: 3px;">Loose JSON | TOML normalizer</h4>
     <div>
         <div class="input-area">
             <textarea id="loosejson" name="loosejson" rows="35" cols="120"
@@ -71,15 +71,20 @@
 </textarea>
         </div>
         <div>
-            <form>
-                <button onclick="execNormalize(event)">Normalize loose JSON</button>
-                Indent:
+            <form name="form1">
+                <button onclick="execNormalize(event)">Normalize loose JSON/TOML</button>
+                <span style="margin-left: 2em;">Indent:</span>
                 <select name="indent">
                     <option value="0" selected>0</option>
                     <option value="2">2</option>
                     <option value="4">4</option>
                     <option value="8">8</option>
                 </select>
+                <span style="margin-left: 1em;"></span>
+                <input type="radio" id="lang-json" name="lang" value="json" checked onchange="changeLang(event)">
+                <label for="lang-json">JSON</label>
+                <input type="radio" id="lang-toml" name="lang" value="toml" onchange="changeLang(event)">
+                <label for="lang-toml">TOML</label>
             </form>
         </div>
     </div>
@@ -93,11 +98,30 @@
         const myCodeMirrorIn = CodeMirror.fromTextArea(document.querySelector('#loosejson'), {mode:'javascript', lineNumbers: true});
         const myCodeMirrorOut = CodeMirror.fromTextArea(document.querySelector('#result-area'), {mode:'javascript', lineNumbers: true, lineWrapping: true});
 
+        function changeLang(event) {
+            if (event.target.value === 'toml') {
+                myCodeMirrorIn.setOption('mode', 'toml');
+            } else {
+                myCodeMirrorIn.setOption('mode', 'javascript');
+            }
+        }
+
         function execNormalize(event) {
             event.preventDefault();
             try {
                 let indent = Number(document.querySelector('select[name=indent]')?.value ?? '0');
-                let result = normalizeJSON(myCodeMirrorIn.getDoc().getValue(), indent);
+                let lang;
+                for (const item of document.form1.lang) {
+                    if (item.checked) {
+                        lang = item.value;
+                    }
+                }
+                let result;
+                if (lang === 'toml') {
+                    result = normalizeTOML(myCodeMirrorIn.getDoc().getValue(), indent);
+                } else {
+                    result = normalizeJSON(myCodeMirrorIn.getDoc().getValue(), indent);
+                }
                 myCodeMirrorOut.getDoc().setValue(result);
             } catch(e) {
                 rebootGoApplication();

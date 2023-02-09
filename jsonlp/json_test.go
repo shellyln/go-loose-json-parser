@@ -19,6 +19,7 @@ type testMatrixItem struct {
 	args    args
 	want    interface{}
 	wantErr bool
+	dbg     bool
 }
 
 func runMatrixParse(t *testing.T, tests []testMatrixItem) {
@@ -41,159 +42,159 @@ func runMatrixParse(t *testing.T, tests []testMatrixItem) {
 	}
 }
 
-func TestParse(t *testing.T) {
+func TestJsonParse1(t *testing.T) {
 	tests := []testMatrixItem{{
-		name:    "1",
+		name:    "j1-1",
 		args:    args{s: `null`},
 		want:    nil,
 		wantErr: false,
 	}, {
-		name:    "2",
+		name:    "j1-2",
 		args:    args{s: `undefined`},
 		want:    nil,
 		wantErr: false,
 	}, {
-		name:    "3",
+		name:    "j1-3",
 		args:    args{s: `true`},
 		want:    true,
 		wantErr: false,
 	}, {
-		name:    "4",
+		name:    "j1-4",
 		args:    args{s: `false`},
 		want:    false,
 		wantErr: false,
 	}, {
-		name:    "5a",
+		name:    "j1-5a",
 		args:    args{s: `0`},
 		want:    float64(0),
 		wantErr: false,
 	}, {
-		name:    "5b",
+		name:    "j1-5b",
 		args:    args{s: `-12.34`},
 		want:    float64(-12.34),
 		wantErr: false,
 	}, {
-		name:    "5c",
+		name:    "j1-5c",
 		args:    args{s: `1234`},
 		want:    float64(1234),
 		wantErr: false,
 	}, {
-		name:    "5d",
+		name:    "j1-5d",
 		args:    args{s: `0b1100`},
 		want:    float64(12),
 		wantErr: false,
 	}, {
-		name:    "5e",
+		name:    "j1-5e",
 		args:    args{s: `0o0040`},
 		want:    float64(32),
 		wantErr: false,
 	}, {
-		name:    "5f",
+		name:    "j1-5f",
 		args:    args{s: `0x0080`},
 		want:    float64(128),
 		wantErr: false,
 	}, {
-		name:    "5g",
+		name:    "j1-5g",
 		args:    args{s: `-9.5e-3`},
 		want:    float64(-0.0095),
 		wantErr: false,
 	}, {
-		name:    "6a",
+		name:    "j1-6a",
 		args:    args{s: `Infinity`},
 		want:    math.Inf(1),
 		wantErr: false,
 	}, {
-		name:    "6b",
+		name:    "j1-6b",
 		args:    args{s: `+Infinity`},
 		want:    math.Inf(1),
 		wantErr: false,
 	}, {
-		name:    "6c",
+		name:    "j1-6c",
 		args:    args{s: `-Infinity`},
 		want:    math.Inf(-1),
 		wantErr: false,
 	}, {
-		name:    "7a",
+		name:    "j1-7a",
 		args:    args{s: `"abc"`},
 		want:    "abc",
 		wantErr: false,
 	}, {
-		name:    "7b",
+		name:    "j1-7b",
 		args:    args{s: `'abc'`},
 		want:    "abc",
 		wantErr: false,
 	}, {
-		name:    "7c",
+		name:    "j1-7c",
 		args:    args{s: "`abc`"},
 		want:    "abc",
 		wantErr: false,
 	}, {
-		name:    "7d",
+		name:    "j1-7d",
 		args:    args{s: `"abc\ndef"`},
 		want:    "abc\ndef",
 		wantErr: false,
 	}, {
-		name:    "7e",
+		name:    "j1-7e",
 		args:    args{s: `"\u0048\u0065\u006c\u006c\u006f\u002c\u0020\u0057\u006f\u0072\u006c\u0064\u0021"`},
 		want:    "Hello, World!",
 		wantErr: false,
 	}, {
-		name:    "7f",
+		name:    "j1-7f",
 		args:    args{s: `"\x48\x65\x6c\x6c\x6f\x2c\x20\x57\x6f\x72\x6c\x64\x21"`},
 		want:    "Hello, World!",
 		wantErr: false,
 	}, {
-		name:    "8a",
+		name:    "j1-8a",
 		args:    args{s: `{}`},
 		want:    map[string]interface{}{},
 		wantErr: false,
 	}, {
-		name:    "8b",
+		name:    "j1-8b",
 		args:    args{s: `{"abc":"def"}`},
 		want:    map[string]interface{}{"abc": "def"},
 		wantErr: false,
 	}, {
-		name:    "8c",
+		name:    "j1-8c",
 		args:    args{s: `{"abc":"def",}`},
 		want:    map[string]interface{}{"abc": "def"},
 		wantErr: false,
 	}, {
-		name:    "8d",
+		name:    "j1-8d",
 		args:    args{s: `{"abc":"def","ghi":123}`},
 		want:    map[string]interface{}{"abc": "def", "ghi": float64(123)},
 		wantErr: false,
 	}, {
-		name:    "8e",
+		name:    "j1-8e",
 		args:    args{s: `{"abc":"def","ghi":123,}`},
 		want:    map[string]interface{}{"abc": "def", "ghi": float64(123)},
 		wantErr: false,
 	}, {
-		name:    "9a",
+		name:    "j1-9a",
 		args:    args{s: `[]`},
 		want:    []interface{}{},
 		wantErr: false,
 	}, {
-		name:    "9b",
+		name:    "j1-9b",
 		args:    args{s: `["abc"]`},
 		want:    []interface{}{"abc"},
 		wantErr: false,
 	}, {
-		name:    "9c",
+		name:    "j1-9c",
 		args:    args{s: `["abc",]`},
 		want:    []interface{}{"abc"},
 		wantErr: false,
 	}, {
-		name:    "9d",
+		name:    "j1-9d",
 		args:    args{s: `["abc","def"]`},
 		want:    []interface{}{"abc", "def"},
 		wantErr: false,
 	}, {
-		name:    "9e",
+		name:    "j1-9e",
 		args:    args{s: `["abc","def",]`},
 		want:    []interface{}{"abc", "def"},
 		wantErr: false,
 	}, {
-		name: "10a",
+		name: "j1-10a",
 		args: args{s: `{亜a_$:[1,/**/2,'3abd',4,-Infinity,null,0x12_34,undefined,true,false,` +
 			`2020-01-02,18:20:30.001,2020-01-02T18:20:30.001Z,{_c1:1,$c1:-1,` +
 			`'d'=>2,'dd':3,"ddd"=4,` + "`dddd`" + ` : 5,f1:["eee"],},],bb亜:-12.34,}`},
@@ -218,7 +219,7 @@ func TestParse(t *testing.T) {
 		},
 		wantErr: false,
 	}, {
-		name: "10b",
+		name: "j1-10b",
 		args: args{s: ` /**/ {
 			亜a_$ : [
 				// line comment
@@ -260,7 +261,7 @@ func TestParse(t *testing.T) {
 		},
 		wantErr: false,
 	}, {
-		name: "11a",
+		name: "j1-11a",
 		args: args{s: ` /**/ {
 			亜a_$ : [
 				// line comment
@@ -284,7 +285,7 @@ func TestParse(t *testing.T) {
 		want:    nil,
 		wantErr: true,
 	}, {
-		name: "11b",
+		name: "j1-11b",
 		args: args{s: ` /**/ {
 			亜a_$ : [
 				// line comment
@@ -308,7 +309,7 @@ func TestParse(t *testing.T) {
 		want:    nil,
 		wantErr: true,
 	}, {
-		name: "12a",
+		name: "j1-12a",
 		args: args{s: `[
 			123,          // -> float64(123)
 			-123.45,      // -> float64(-123.45)
@@ -343,7 +344,7 @@ func TestParse(t *testing.T) {
 		},
 		wantErr: false,
 	}, {
-		name: "13a",
+		name: "j1-13a",
 		args: args{s: `{foo.bar.baz=123}`},
 		want: map[string]interface{}{
 			"foo": map[string]interface{}{
@@ -354,7 +355,7 @@ func TestParse(t *testing.T) {
 		},
 		wantErr: false,
 	}, {
-		name: "13b",
+		name: "j1-13b",
 		args: args{s: `{"foo"."bar"."baz"=123}`},
 		want: map[string]interface{}{
 			"foo": map[string]interface{}{
@@ -365,7 +366,7 @@ func TestParse(t *testing.T) {
 		},
 		wantErr: false,
 	}, {
-		name: "13c",
+		name: "j1-13c",
 		args: args{s: `{foo.bar.baz=123, foo.bar.qux:234}`},
 		want: map[string]interface{}{
 			"foo": map[string]interface{}{
