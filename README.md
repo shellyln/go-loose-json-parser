@@ -1,5 +1,5 @@
-# Go Loose JSON parser
-Super loose JSON + TOML parser for Go.
+# Go Loose JSON + TOML parsers
+Super loose JSON + TOML parsers for Go.
 
 [![Test](https://github.com/shellyln/go-loose-json-parser/actions/workflows/test.yml/badge.svg)](https://github.com/shellyln/go-loose-json-parser/actions/workflows/test.yml)
 [![release](https://img.shields.io/github/v/release/shellyln/go-loose-json-parser)](https://github.com/shellyln/go-loose-json-parser/releases)

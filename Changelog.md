@@ -1,5 +1,10 @@
 # Changelog
 
+# v0.0.6
+* Added TOML parser.
+* Edit README.
+* Rename files.
+
 # v0.0.5
 * Added dotted key syntax.
 
