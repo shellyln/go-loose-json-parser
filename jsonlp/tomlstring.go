@@ -103,6 +103,8 @@ func tomlSingleLineBasicString() ParserFn {
 							ParseIntRadix(8),
 							StringFromInt,
 						),
+						replaceStr(CharClass("\r\n", "\r", "\n"), ""),
+						Any(),
 					),
 				),
 				OneOrMoreTimes(

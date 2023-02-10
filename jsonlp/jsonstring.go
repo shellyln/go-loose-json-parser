@@ -52,6 +52,8 @@ func stringLiteralInner(cc string, multiline bool) ParserFn {
 							ParseIntRadix(8),
 							StringFromInt,
 						),
+						replaceStr(CharClass("\r\n", "\r", "\n"), ""),
+						Any(),
 					),
 				),
 				If(multiline,
