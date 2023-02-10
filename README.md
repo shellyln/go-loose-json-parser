@@ -1,4 +1,4 @@
-# Go Loose JSON + TOML parsers
+# Loose JSON + TOML parsers for Go
 Super loose JSON + TOML parsers for Go.
 
 [![Test](https://github.com/shellyln/go-loose-json-parser/actions/workflows/test.yml/badge.svg)](https://github.com/shellyln/go-loose-json-parser/actions/workflows/test.yml)
@@ -68,6 +68,16 @@ func main() {
     fmt.Printf("Parsed = %v\n", parsed)
 }
 ```
+
+## 🚧 TODO
+
+### TOML
+
+* Datetime format with date and time delimited by space (RFC 3339 section 5.6)
+  * e.g. `2006-01-02 15:04:05Z`
+* Datetime format without timezone
+  * e.g. `2006-01-02T15:04:05`
+* Platform-dependent newline in multiline string
 
 ## 🪄 Example
 
@@ -141,6 +151,8 @@ func main() {
 }
 ```
 
+See also: [Introducing JSON](https://www.json.org/json-en.html), [JSON5 Spec](https://spec.json5.org/)
+
 ### TOML
 
 ```toml
@@ -183,6 +195,9 @@ foo = 2
 [array-of-table-U.sub-table-V]
 bar = 22
 ```
+
+See also: [TOML Spec](https://toml.io/en/v1.0.0)
+
 
 ## 📚 Syntax
 
