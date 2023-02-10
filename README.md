@@ -5,7 +5,7 @@ Super loose JSON + TOML parsers for Go.
 [![release](https://img.shields.io/github/v/release/shellyln/go-loose-json-parser)](https://github.com/shellyln/go-loose-json-parser/releases)
 [![Go version](https://img.shields.io/github/go-mod/go-version/shellyln/go-loose-json-parser)](https://github.com/shellyln/go-loose-json-parser)
 
-<img src="https://raw.githubusercontent.com/shellyln/takenoco/master/_assets/logo-go-jsonlp.svg" alt="logo" style="width:250px;" width="250">
+<img src="https://raw.githubusercontent.com/shellyln/go-loose-json-parser/master/_assets/logo-go-jsonlp.svg" alt="logo" style="width:250px;" width="250">
 
 ---
 
