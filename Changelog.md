@@ -1,5 +1,10 @@
 # Changelog
 
+# v0.0.7
+* Fix string parsers: escape sequence.
+* Added strict IEEE-754 +0/-0 parsing test.
+* Edit README.
+
 # v0.0.6
 * Added TOML parser.
 * Edit README.
