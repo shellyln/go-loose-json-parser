@@ -78,6 +78,8 @@ func main() {
 * Datetime format without timezone
   * e.g. `2006-01-02T15:04:05`
 * Platform-dependent newline in multiline string
+* Strict IEEE-754 +0/-0
+* Error detection when values are overwritten
 
 ## 🪄 Example
 
