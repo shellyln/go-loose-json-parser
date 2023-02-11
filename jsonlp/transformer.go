@@ -1,6 +1,7 @@
 package jsonlp
 
 import (
+	"fmt"
 	"strconv"
 
 	. "github.com/shellyln/takenoco/base"
@@ -9,13 +10,13 @@ import (
 
 func radixNumberTransformer(prefix string, radix int) TransformerFn {
 	return func(ctx ParserContext, asts AstSlice) (AstSlice, error) {
-		switch asts[1].Value.(string) {
+		switch asts[2].Value.(string) {
 		case "p", "P":
-			asts, err := Concat(ctx, asts)
+			concatAsts, err := Concat(ctx, asts[1:])
 			if err != nil {
 				return nil, err
 			}
-			v, err := strconv.ParseFloat(prefix+asts[0].Value.(string), 64)
+			v, err := strconv.ParseFloat(asts[0].Value.(string)+prefix+concatAsts[0].Value.(string), 64)
 			if err != nil {
 				return nil, err
 			}
@@ -25,7 +26,10 @@ func radixNumberTransformer(prefix string, radix int) TransformerFn {
 				Value:     v,
 			}}, nil
 		case "s64", "S64":
-			v, err := strconv.ParseUint(asts[0].Value.(string), radix, 64)
+			if asts[0].Value.(string) != "" {
+				return nil, fmt.Errorf("Invalid number format: %v%v%v", asts[0].Value.(string), prefix, asts[1].Value.(string))
+			}
+			v, err := strconv.ParseUint(asts[1].Value.(string), radix, 64)
 			if err != nil {
 				return nil, err
 			}
@@ -35,7 +39,10 @@ func radixNumberTransformer(prefix string, radix int) TransformerFn {
 				Value:     int64(v),
 			}}, nil
 		case "u64", "U64":
-			v, err := strconv.ParseUint(asts[0].Value.(string), radix, 64)
+			if asts[0].Value.(string) != "" {
+				return nil, fmt.Errorf("Invalid number format: %v%v%v", asts[0].Value.(string), prefix, asts[1].Value.(string))
+			}
+			v, err := strconv.ParseUint(asts[1].Value.(string), radix, 64)
 			if err != nil {
 				return nil, err
 			}
@@ -45,7 +52,10 @@ func radixNumberTransformer(prefix string, radix int) TransformerFn {
 				Value:     v,
 			}}, nil
 		default:
-			v, err := strconv.ParseInt(asts[0].Value.(string), radix, 64)
+			if asts[0].Value.(string) != "" {
+				return nil, fmt.Errorf("Invalid number format: %v%v%v", asts[0].Value.(string), prefix, asts[1].Value.(string))
+			}
+			v, err := strconv.ParseInt(asts[1].Value.(string), radix, 64)
 			if err != nil {
 				return nil, err
 			}

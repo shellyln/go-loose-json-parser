@@ -167,6 +167,10 @@ func nanValue() ParserFn {
 func radixNumberParser(prefix string, radix int, radixNumbrrStr ParserFn) ParserFn {
 	return Trans(
 		FlatGroup(
+			First(
+				CharClass("+", "-"),
+				Zero(Ast{Type: AstType_String, Value: ""}),
+			),
 			FlatGroup(erase(SeqI(prefix))),
 			erase(ZeroOrMoreTimes(Seq("_"))),
 			First(
@@ -202,9 +206,9 @@ func radixNumberParser(prefix string, radix int, radixNumbrrStr ParserFn) Parser
 				FlatGroup(
 					radixNumbrrStr,
 					First(
-						FlatGroup(SeqI("s64")),
-						FlatGroup(SeqI("u64")),
-						FlatGroup(Zero(Ast{Value: "f"})),
+						SeqI("s64"),
+						SeqI("u64"),
+						Zero(Ast{Value: "f"}),
 					),
 				),
 			),

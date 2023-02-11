@@ -317,10 +317,13 @@ See also: [TOML Spec](https://toml.io/en/v1.0.0)
 0x1.Fp+0
 ```
 ```js
-0X_1FFFP-16
+0X_1_FFF_P-16
 ```
 ```js
 NaN
+```
+```js
+nan
 ```
 ```js
 Infinity
@@ -330,6 +333,15 @@ Infinity
 ```
 ```js
 -Infinity
+```
+```js
+inf
+```
+```js
++inf
+```
+```js
+-inf
 ```
 
 ### String

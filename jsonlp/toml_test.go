@@ -705,4 +705,34 @@ func TestTomlParse4(t *testing.T) {
 		t.Errorf("-0 not equals -0p-1074")
 		return
 	}
+
+	got, err = jsonlp.ParseTOML(`x = 0x0p-1074`, false)
+	if err != nil {
+		t.Errorf("0x0p-1074: Parse() error = %v", err)
+		return
+	}
+	if fmt.Sprintf("%b", got.(map[string]interface{})["x"]) != "0p-1074" {
+		t.Errorf("0x0p-1074 not equals 0p-1074")
+		return
+	}
+
+	got, err = jsonlp.ParseTOML(`x = +0x0p-1074`, false)
+	if err != nil {
+		t.Errorf("+0x0p-1074: Parse() error = %v", err)
+		return
+	}
+	if fmt.Sprintf("%b", got.(map[string]interface{})["x"]) != "0p-1074" {
+		t.Errorf("+0x0p-1074 not equals 0p-1074")
+		return
+	}
+
+	got, err = jsonlp.ParseTOML(`x = -0x0p-1074`, false)
+	if err != nil {
+		t.Errorf("-0x0p-1074: Parse() error = %v", err)
+		return
+	}
+	if fmt.Sprintf("%b", got.(map[string]interface{})["x"]) != "-0p-1074" {
+		t.Errorf("-0x0p-1074 not equals -0p-1074")
+		return
+	}
 }
