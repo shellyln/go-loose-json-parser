@@ -58,6 +58,9 @@
                     const inst = await WebAssembly.instantiate(mod, go.importObject);
                     go.run(inst);
                 }
+
+                const ver = getVersion()
+                document.querySelector('#version').innerHTML = getVersion();
             });
         }
     </script>
@@ -66,7 +69,8 @@
     <div style="display: flex;">
         <h4 style="margin: 0 auto 0 0;"><img
             src="https://raw.githubusercontent.com/shellyln/go-loose-json-parser/master/_assets/logo-go-jsonlp.svg"
-            alt="logo" style="width:20px; margin-right: 0.55rem; vertical-align: middle;">Loose JSON | TOML normalizer</h4>
+            alt="logo" style="width:20px; margin-right: 0.55rem; vertical-align: middle;">Loose JSON | TOML normalizer <span
+            style="font-size: x-small;" id="version"></span></h4>
         <div style="font-size: smaller;">Powered by <a href="https://github.com/shellyln/go-loose-json-parser"
             target="_blank"
             style="color: unset;"

@@ -75,11 +75,16 @@ func normalizeTOML(this js.Value, args []js.Value) interface{} {
 	return js.ValueOf(string(b))
 }
 
+func getVersion(this js.Value, args []js.Value) interface{} {
+	return js.ValueOf(Version)
+}
+
 func main() {
 	println("Go WebAssembly Initialized")
 
 	js.Global().Set("normalizeJSON", js.FuncOf(normalizeJSON))
 	js.Global().Set("normalizeTOML", js.FuncOf(normalizeTOML))
+	js.Global().Set("getVersion", js.FuncOf(getVersion))
 
 	select {}
 }
