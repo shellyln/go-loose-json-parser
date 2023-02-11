@@ -124,8 +124,18 @@ func TestJsonParse1(t *testing.T) {
 		want:    int64(9223372036854775807),
 		wantErr: false,
 	}, {
+		name:    "j1-5c10b",
+		args:    args{s: `9_223_372_036_854_775_807s64`},
+		want:    int64(9223372036854775807),
+		wantErr: false,
+	}, {
 		name:    "j1-5c11",
 		args:    args{s: `-9223372036854775808s64`},
+		want:    int64(-9223372036854775808),
+		wantErr: false,
+	}, {
+		name:    "j1-5c11b",
+		args:    args{s: `-9_223_372_036_854_775_808_s64`},
 		want:    int64(-9223372036854775808),
 		wantErr: false,
 	}, {
@@ -147,6 +157,31 @@ func TestJsonParse1(t *testing.T) {
 		name:    "j1-5c15",
 		args:    args{s: `18446744073709551615u64`},
 		want:    uint64(18446744073709551615),
+		wantErr: false,
+	}, {
+		name:    "j1-5c15b",
+		args:    args{s: `18_446_744_073_709_551_615_u64`},
+		want:    uint64(18446744073709551615),
+		wantErr: false,
+	}, {
+		name:    "j1-5c16a",
+		args:    args{s: `9007199254740991`},
+		want:    float64(9007199254740991),
+		wantErr: false,
+	}, {
+		name:    "j1-5c16b",
+		args:    args{s: `9_007_199_254_740_991`},
+		want:    float64(9007199254740991),
+		wantErr: false,
+	}, {
+		name:    "j1-5c16c",
+		args:    args{s: `-9007199254740991`},
+		want:    float64(-9007199254740991),
+		wantErr: false,
+	}, {
+		name:    "j1-5c16d",
+		args:    args{s: `-9_007_199_254_740_991`},
+		want:    float64(-9007199254740991),
 		wantErr: false,
 	}, {
 		name:    "j1-5d",
@@ -184,6 +219,11 @@ func TestJsonParse1(t *testing.T) {
 		want:    int64(-1),
 		wantErr: false,
 	}, {
+		name:    "j1-5f4b",
+		args:    args{s: `0x_ffff_ffff_ffff_ffff_s64`},
+		want:    int64(-1),
+		wantErr: false,
+	}, {
 		name:    "j1-5f5",
 		args:    args{s: `0x7fffffffffffffffu64`},
 		want:    uint64(9223372036854775807),
@@ -196,6 +236,11 @@ func TestJsonParse1(t *testing.T) {
 	}, {
 		name:    "j1-5f7",
 		args:    args{s: `0xffffffffffffffffu64`},
+		want:    uint64(18446744073709551615),
+		wantErr: false,
+	}, {
+		name:    "j1-5f7b",
+		args:    args{s: `0x_ffff_ffff_ffff_ffff_u64`},
 		want:    uint64(18446744073709551615),
 		wantErr: false,
 	}, {
