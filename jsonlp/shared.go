@@ -164,34 +164,76 @@ func nanValue() ParserFn {
 	)
 }
 
+func radixNumberParser(prefix string, radix int, radixNumbrrStr ParserFn) ParserFn {
+	return Trans(
+		FlatGroup(
+			FlatGroup(erase(SeqI(prefix))),
+			erase(ZeroOrMoreTimes(Seq("_"))),
+			First(
+				FlatGroup(
+					First(
+						FlatGroup(
+							Trans(
+								FlatGroup(
+									radixNumbrrStr,
+									Seq("."),
+									ZeroOrOnce(radixNumbrrStr),
+								),
+								Concat,
+							),
+							SeqI("p"),
+						),
+						FlatGroup(
+							Trans(
+								FlatGroup(
+									Seq("."),
+									radixNumbrrStr,
+								),
+								Concat,
+							),
+							SeqI("p"),
+						),
+						FlatGroup(radixNumbrrStr, SeqI("p")),
+					),
+					extra.IntegerNumberStr(),
+				),
+				FlatGroup(
+					radixNumbrrStr,
+					First(
+						FlatGroup(SeqI("s64")),
+						FlatGroup(SeqI("u64")),
+						FlatGroup(Zero(Ast{Value: "f"})),
+					),
+				),
+			),
+		),
+		radixNumberTransformer(prefix, radix),
+	)
+}
+
 func numberValue() ParserFn {
 	return First(
 		FlatGroup(
 			First(
-				Trans(
-					FlatGroup(erase(SeqI("0b")), extra.BinaryNumberStr()),
-					ParseIntRadix(2),
-					castIntToFloat,
-				),
-				Trans(
-					FlatGroup(erase(SeqI("0o")), extra.OctalNumberStr()),
-					ParseIntRadix(8),
-					castIntToFloat,
-				),
-				Trans(
-					FlatGroup(erase(SeqI("0x")), extra.HexNumberStr()),
-					ParseIntRadix(16),
-					castIntToFloat,
-				),
+				radixNumberParser("0b", 2, extra.BinaryNumberStr()),
+				radixNumberParser("0o", 8, extra.OctalNumberStr()),
+				radixNumberParser("0x", 16, extra.HexNumberStr()),
 				Trans(
 					extra.FloatNumberStr(),
 					ParseFloat,
 					ChangeClassName("Float"),
 				),
 				Trans(
-					extra.IntegerNumberStr(),
-					ParseInt,
-					castIntToFloat,
+					FlatGroup(
+						erase(ZeroOrOnce(Seq("+"))),
+						extra.IntegerNumberStr(),
+						First(
+							FlatGroup(SeqI("s64")),
+							FlatGroup(SeqI("u64")),
+							FlatGroup(Zero(Ast{Value: "f"})),
+						),
+					),
+					decimalNumberTransformer,
 				),
 			),
 			WordBoundary(),

@@ -130,7 +130,7 @@ func tomlDocument() ParserFn {
 
 // src:     TOML
 // interop: If true, replace NaN, Infinity by null
-// parsed:  nil | []any | map[string]any | float64 | string | bool | time.Time
+// parsed:  nil | []any | map[string]any | float64 | int64 | uint64 | string | bool | time.Time
 func ParseTOML(s string, interop bool) (interface{}, error) {
 	ctx := *NewStringParserContext(s)
 	ctx.Tag = parseOptions{interop: interop, isTOML: true}

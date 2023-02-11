@@ -74,9 +74,79 @@ func TestJsonParse1(t *testing.T) {
 		want:    float64(-12.34),
 		wantErr: false,
 	}, {
-		name:    "j1-5c",
+		name:    "j1-5c1",
 		args:    args{s: `1234`},
 		want:    float64(1234),
+		wantErr: false,
+	}, {
+		name:    "j1-5c2",
+		args:    args{s: `+1234`},
+		want:    float64(1234),
+		wantErr: false,
+	}, {
+		name:    "j1-5c3",
+		args:    args{s: `-1234`},
+		want:    float64(-1234),
+		wantErr: false,
+	}, {
+		name:    "j1-5c4",
+		args:    args{s: `1234s64`},
+		want:    int64(1234),
+		wantErr: false,
+	}, {
+		name:    "j1-5c5",
+		args:    args{s: `+1234s64`},
+		want:    int64(1234),
+		wantErr: false,
+	}, {
+		name:    "j1-5c6",
+		args:    args{s: `-1234s64`},
+		want:    int64(-1234),
+		wantErr: false,
+	}, {
+		name:    "j1-5c7",
+		args:    args{s: `1234u64`},
+		want:    uint64(1234),
+		wantErr: false,
+	}, {
+		name:    "j1-5c8",
+		args:    args{s: `+1234u64`},
+		want:    uint64(1234),
+		wantErr: false,
+	}, {
+		name:    "j1-5c9",
+		args:    args{s: `-0s64`},
+		want:    int64(0),
+		wantErr: false,
+	}, {
+		name:    "j1-5c10",
+		args:    args{s: `9223372036854775807s64`},
+		want:    int64(9223372036854775807),
+		wantErr: false,
+	}, {
+		name:    "j1-5c11",
+		args:    args{s: `-9223372036854775808s64`},
+		want:    int64(-9223372036854775808),
+		wantErr: false,
+	}, {
+		name:    "j1-5c12",
+		args:    args{s: `-1s64`},
+		want:    int64(-1),
+		wantErr: false,
+	}, {
+		name:    "j1-5c13",
+		args:    args{s: `9223372036854775807u64`},
+		want:    uint64(9223372036854775807),
+		wantErr: false,
+	}, {
+		name:    "j1-5c14",
+		args:    args{s: `9223372036854775808u64`},
+		want:    uint64(9223372036854775808),
+		wantErr: false,
+	}, {
+		name:    "j1-5c15",
+		args:    args{s: `18446744073709551615u64`},
+		want:    uint64(18446744073709551615),
 		wantErr: false,
 	}, {
 		name:    "j1-5d",
@@ -84,14 +154,69 @@ func TestJsonParse1(t *testing.T) {
 		want:    float64(12),
 		wantErr: false,
 	}, {
+		name:    "j1-5d2",
+		args:    args{s: `0b0011`},
+		want:    float64(3),
+		wantErr: false,
+	}, {
 		name:    "j1-5e",
 		args:    args{s: `0o0040`},
 		want:    float64(32),
 		wantErr: false,
 	}, {
-		name:    "j1-5f",
+		name:    "j1-5f1",
 		args:    args{s: `0x0080`},
 		want:    float64(128),
+		wantErr: false,
+	}, {
+		name:    "j1-5f2",
+		args:    args{s: `0x7fffffffffffffffs64`},
+		want:    int64(9223372036854775807),
+		wantErr: false,
+	}, {
+		name:    "j1-5f3",
+		args:    args{s: `0x8000000000000000s64`},
+		want:    int64(-9223372036854775808),
+		wantErr: false,
+	}, {
+		name:    "j1-5f4",
+		args:    args{s: `0xffffffffffffffffs64`},
+		want:    int64(-1),
+		wantErr: false,
+	}, {
+		name:    "j1-5f5",
+		args:    args{s: `0x7fffffffffffffffu64`},
+		want:    uint64(9223372036854775807),
+		wantErr: false,
+	}, {
+		name:    "j1-5f6",
+		args:    args{s: `0x8000000000000000u64`},
+		want:    uint64(9223372036854775808),
+		wantErr: false,
+	}, {
+		name:    "j1-5f7",
+		args:    args{s: `0xffffffffffffffffu64`},
+		want:    uint64(18446744073709551615),
+		wantErr: false,
+	}, {
+		name:    "j1-5f8",
+		args:    args{s: `0x1p-2`},
+		want:    float64(0.25),
+		wantErr: false,
+	}, {
+		name:    "j1-5f9",
+		args:    args{s: `0x1.Fp+0`},
+		want:    float64(1.9375),
+		wantErr: false,
+	}, {
+		name:    "j1-5f10",
+		args:    args{s: `0X_1FFFP-16`},
+		want:    float64(0.1249847412109375),
+		wantErr: false,
+	}, {
+		name:    "j1-5f11",
+		args:    args{s: `0X1FFFP-16`},
+		want:    float64(0.1249847412109375),
 		wantErr: false,
 	}, {
 		name:    "j1-5g",

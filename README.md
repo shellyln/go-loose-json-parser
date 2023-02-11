@@ -23,7 +23,7 @@ import (
 func main() {
     // src:     Loose JSON
     // interop: If true, replace NaN, Infinity by null
-    // parsed:  nil | []any | map[string]any | float64 | string | bool | time.Time
+    // parsed:  nil | []any | map[string]any | float64 | int64 | uint64 | string | bool | time.Time
     parsed, err := jsonlp.Parse(`{
         // comment
         config: {
@@ -53,7 +53,7 @@ import (
 func main() {
     // src:     Loose TOML
     // interop: If true, replace NaN, Infinity by null
-    // parsed:  nil | []any | map[string]any | float64 | string | bool | time.Time
+    // parsed:  nil | []any | map[string]any | float64 | int64 | uint64 | string | bool | time.Time
     parsed, err := jsonlp.ParseTOML(`
     # comment
     [config]
@@ -278,6 +278,15 @@ See also: [TOML Spec](https://toml.io/en/v1.0.0)
 123
 ```
 ```js
+-123
+```
+```js
+-123s64
+```
+```js
+123u64
+```
+```js
 -123.45
 ```
 ```js
@@ -297,6 +306,15 @@ See also: [TOML Spec](https://toml.io/en/v1.0.0)
 ```
 ```js
 0b0101_0101
+```
+```js
+0x1p-2
+```
+```js
+0x1.Fp+0
+```
+```js
+0X_1FFFP-16
 ```
 ```js
 NaN
