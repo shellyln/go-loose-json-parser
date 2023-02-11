@@ -80,6 +80,11 @@ func main() {
 * Platform-dependent newline in multiline string
 * Error detection when values are overwritten
 
+### Enhancement
+
+* Complex number literals
+  * e.g. `1.25 + 0.75i`
+
 ## 🪄 Example
 
 ### JSON
