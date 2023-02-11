@@ -303,6 +303,36 @@ func TestJsonParse1(t *testing.T) {
 		want:    float64(1.9375),
 		wantErr: false,
 	}, {
+		name:    "j1-5f9d",
+		args:    args{s: `0x1._F000_0000_p0`},
+		want:    float64(1.9375),
+		wantErr: false,
+	}, {
+		name:    "j1-5f9e",
+		args:    args{s: `0x1._F000_0000_p-0`},
+		want:    float64(1.9375),
+		wantErr: false,
+	}, {
+		name:    "j1-5f9f",
+		args:    args{s: `0x1.8p+1`},
+		want:    float64(3),
+		wantErr: false,
+	}, {
+		name:    "j1-5f9g",
+		args:    args{s: `0x1.8p+0`},
+		want:    float64(1.5),
+		wantErr: false,
+	}, {
+		name:    "j1-5f9h",
+		args:    args{s: `0x1.8p0`},
+		want:    float64(1.5),
+		wantErr: false,
+	}, {
+		name:    "j1-5f9i",
+		args:    args{s: `0x1.8p-1`},
+		want:    float64(0.75),
+		wantErr: false,
+	}, {
 		name:    "j1-5f10a",
 		args:    args{s: `0X_1FFFP-16`},
 		want:    float64(0.1249847412109375),
@@ -323,9 +353,19 @@ func TestJsonParse1(t *testing.T) {
 		want:    float64(-0.1249847412109375),
 		wantErr: false,
 	}, {
-		name:    "j1-5g",
+		name:    "j1-5g1a",
 		args:    args{s: `-9.5e-3`},
 		want:    float64(-0.0095),
+		wantErr: false,
+	}, {
+		name:    "j1-5g1b",
+		args:    args{s: `-9.5e3`},
+		want:    float64(-9500),
+		wantErr: false,
+	}, {
+		name:    "j1-5g1c",
+		args:    args{s: `-9.5e+3`},
+		want:    float64(-9500),
 		wantErr: false,
 	}, {
 		name:    "j1-6a",
