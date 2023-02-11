@@ -177,6 +177,7 @@ func radixNumberParser(prefix string, radix int, radixNumbrrStr ParserFn) Parser
 								FlatGroup(
 									radixNumbrrStr,
 									Seq("."),
+									erase(ZeroOrMoreTimes(Seq("_"))),
 									ZeroOrOnce(radixNumbrrStr),
 								),
 								Concat,
@@ -187,6 +188,7 @@ func radixNumberParser(prefix string, radix int, radixNumbrrStr ParserFn) Parser
 							Trans(
 								FlatGroup(
 									Seq("."),
+									erase(ZeroOrMoreTimes(Seq("_"))),
 									radixNumbrrStr,
 								),
 								Concat,
