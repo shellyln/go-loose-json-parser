@@ -80,6 +80,8 @@ func stringLiteralInner(cc string, multiline bool) ParserFn {
 func jsonStringValue() ParserFn {
 	return Trans(
 		First(
+			tomlMultiLineBasicString(),
+			tomlMultiLineLiteralString(),
 			stringLiteralInner("\"", false),
 			stringLiteralInner("'", false),
 			stringLiteralInner("`", true),
