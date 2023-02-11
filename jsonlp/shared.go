@@ -1,8 +1,6 @@
 package jsonlp
 
 import (
-	"time"
-
 	. "github.com/shellyln/takenoco/base"
 	"github.com/shellyln/takenoco/extra"
 	. "github.com/shellyln/takenoco/string"
@@ -222,18 +220,7 @@ func dateValue() ParserFn {
 			extra.DateStr(),
 			WordBoundary(),
 		),
-		func(ctx ParserContext, asts AstSlice) (AstSlice, error) {
-			value := asts[len(asts)-1].Value.(string)
-			t, err := time.Parse("2006-01-02", value)
-			if err != nil {
-				return nil, err
-			}
-			return AstSlice{{
-				ClassName: "Date",
-				Type:      AstType_Any,
-				Value:     t.UTC(),
-			}}, nil
-		},
+		extra.ParseDate,
 	)
 }
 
@@ -243,19 +230,7 @@ func dateTimeValue() ParserFn {
 			extra.DateTimeStr(),
 			WordBoundary(),
 		),
-		func(ctx ParserContext, asts AstSlice) (AstSlice, error) {
-			// TODO: BUG: Cannot parse years with negative values or years greater than or equal to 10000.
-			value := asts[len(asts)-1].Value.(string)
-			t, err := time.Parse("2006-01-02T15:04:05.000000000-07:00", value)
-			if err != nil {
-				return nil, err
-			}
-			return AstSlice{{
-				ClassName: "DateTime",
-				Type:      AstType_Any,
-				Value:     t.UTC(),
-			}}, nil
-		},
+		extra.ParseDateTime,
 	)
 }
 
@@ -265,18 +240,7 @@ func timeValue() ParserFn {
 			extra.TimeStr(),
 			WordBoundary(),
 		),
-		func(ctx ParserContext, asts AstSlice) (AstSlice, error) {
-			value := "1970-01-01T" + asts[len(asts)-1].Value.(string) + "+00:00"
-			t, err := time.Parse("2006-01-02T15:04:05.000000000-07:00", value)
-			if err != nil {
-				return nil, err
-			}
-			return AstSlice{{
-				ClassName: "Time",
-				Type:      AstType_Any,
-				Value:     t.UTC(),
-			}}, nil
-		},
+		extra.ParseTime,
 	)
 }
 
