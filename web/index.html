@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <title>Loose JSON | TOML normalizer</title>
     <link rel="icon"
-        href="https://raw.githubusercontent.com/shellyln/go-loose-json-parser/master/_assets/logo-go-jsonlp.svg"
+        href="https://shellyln.github.io/assets/image/logo-go-jsonlp.svg"
         type="image/svg+xml">
 
     <script src="wasm_exec.js"></script>
@@ -68,7 +68,7 @@
 <body>
     <div style="display: flex;">
         <h4 style="margin: 0 auto 0 0;"><img
-            src="https://raw.githubusercontent.com/shellyln/go-loose-json-parser/master/_assets/logo-go-jsonlp.svg"
+            src="https://shellyln.github.io/assets/image/logo-go-jsonlp.svg"
             alt="logo" style="width:20px; margin-right: 0.55rem; vertical-align: middle;">Loose JSON | TOML normalizer <span
             style="font-size: x-small;" id="version"></span></h4>
         <div style="font-size: smaller;">Powered by <a href="https://github.com/shellyln/go-loose-json-parser"
@@ -87,7 +87,7 @@
         </div>
         <div>
             <form name="form1">
-                <button onclick="execNormalize(event)">Normalize loose JSON/TOML</button>
+                <button onclick="execNormalize(event)">Normalize loose JSON|TOML to strict JSON</button>
                 <span style="margin-left: 2em;">Indent:</span>
                 <select name="indent">
                     <option value="0" selected>0</option>
@@ -95,7 +95,7 @@
                     <option value="4">4</option>
                     <option value="8">8</option>
                 </select>
-                <span style="margin-left: 1em;"></span>
+                <span style="margin-left: 1em;">Input:</span>
                 <input type="radio" id="lang-json" name="lang" value="json" checked onchange="changeLang(event)">
                 <label for="lang-json">JSON</label>
                 <input type="radio" id="lang-toml" name="lang" value="toml" onchange="changeLang(event)">

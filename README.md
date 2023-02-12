@@ -71,6 +71,10 @@ func main() {
 
 ## 🚧 TODO
 
+### APIs
+
+* Marshalling from any to typed
+
 ### TOML
 
 * Datetime format with date and time delimited by space (RFC 3339 section 5.6)
