@@ -85,7 +85,7 @@ func commentLookAheadLb() ParserFn {
 func trueValue() ParserFn {
 	return FlatGroup(
 		erase(Seq("true")),
-		WordBoundary(),
+		extra.UnicodeWordBoundary(),
 		Zero(trueAst),
 	)
 }
@@ -93,7 +93,7 @@ func trueValue() ParserFn {
 func falseValue() ParserFn {
 	return FlatGroup(
 		erase(Seq("false")),
-		WordBoundary(),
+		extra.UnicodeWordBoundary(),
 		Zero(falseAst),
 	)
 }
@@ -108,7 +108,7 @@ func boolValue() ParserFn {
 func nullValue() ParserFn {
 	return FlatGroup(
 		erase(CharClass("null", "undefined")),
-		WordBoundary(),
+		extra.UnicodeWordBoundary(),
 		Zero(nilAst),
 	)
 }
@@ -121,7 +121,7 @@ func positiveInfinityValue() ParserFn {
 			ZeroOrOnce(Seq("+")),
 			CharClass("Infinity", "inf"),
 		)),
-		WordBoundary(),
+		extra.UnicodeWordBoundary(),
 		func(ctx ParserContext) (ParserContext, error) {
 			if ctx.Tag.(parseOptions).interop {
 				return nilParser(ctx)
@@ -137,7 +137,7 @@ func negativeInfinityValue() ParserFn {
 	infParser := Zero(negativeInfinityAst)
 	return FlatGroup(
 		erase(CharClass("-Infinity", "-inf")),
-		WordBoundary(),
+		extra.UnicodeWordBoundary(),
 		func(ctx ParserContext) (ParserContext, error) {
 			if ctx.Tag.(parseOptions).interop {
 				return nilParser(ctx)
@@ -153,7 +153,7 @@ func nanValue() ParserFn {
 	nanParser := Zero(nanAst)
 	return FlatGroup(
 		erase(CharClass("+nan", "-nan", "NaN", "nan")),
-		WordBoundary(),
+		extra.UnicodeWordBoundary(),
 		func(ctx ParserContext) (ParserContext, error) {
 			if ctx.Tag.(parseOptions).interop {
 				return nilParser(ctx)
@@ -242,7 +242,7 @@ func numberValue() ParserFn {
 					decimalNumberTransformer,
 				),
 			),
-			WordBoundary(),
+			extra.UnicodeWordBoundary(),
 		),
 		positiveInfinityValue(),
 		negativeInfinityValue(),
@@ -266,7 +266,7 @@ func dateValue() ParserFn {
 	return Trans(
 		FlatGroup(
 			extra.DateStr(),
-			WordBoundary(),
+			extra.UnicodeWordBoundary(),
 		),
 		extra.ParseDate,
 	)
@@ -276,7 +276,7 @@ func dateTimeValue() ParserFn {
 	return Trans(
 		FlatGroup(
 			extra.DateTimeStr(),
-			WordBoundary(),
+			extra.UnicodeWordBoundary(),
 		),
 		extra.ParseDateTime,
 	)
@@ -286,7 +286,7 @@ func timeValue() ParserFn {
 	return Trans(
 		FlatGroup(
 			extra.TimeStr(),
-			WordBoundary(),
+			extra.UnicodeWordBoundary(),
 		),
 		extra.ParseTime,
 	)
