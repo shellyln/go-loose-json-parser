@@ -1,5 +1,10 @@
 # Changelog
 
+# v0.0.10
+* Improve word boundary.
+* Edit wasm example html.
+* Edit README.
+
 # v0.0.9
 * Improve JSON string parser: support TOML style multiline strings.
 * Edit wasm example.
