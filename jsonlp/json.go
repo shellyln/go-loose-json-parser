@@ -20,7 +20,7 @@ func listValue() ParserFn {
 	return Trans(
 		FlatGroup(
 			erase((Seq("["))),
-			erase(sp0()),
+			sp0(),
 			ZeroOrOnce(
 				FlatGroup(
 					First(
@@ -28,36 +28,36 @@ func listValue() ParserFn {
 						Indirect(listValue),
 						Indirect(objectValue),
 					),
-					erase(sp0()),
+					sp0(),
 				),
 				ZeroOrMoreTimes(
 					erase((Seq(","))),
-					erase(sp0()),
+					sp0(),
 					First(
 						primitiveValue(),
 						Indirect(listValue),
 						Indirect(objectValue),
 						LookAhead(Seq("]")),
 						FlatGroup(
-							erase(sp0()),
+							sp0(),
 							Error("Expect array closing parenthesis ')' or value"),
 						),
 					),
-					erase(sp0()),
+					sp0(),
 				),
 			),
 			ZeroOrOnce(
 				erase((Seq(","))),
-				erase(sp0()),
+				sp0(),
 			),
 			First(
 				erase((Seq("]"))),
 				FlatGroup(
-					erase(sp0()),
+					sp0(),
 					Error("Expect array closing parenthesis ')'"),
 				),
 			),
-			erase(sp0()),
+			sp0(),
 		),
 		func(ctx ParserContext, asts AstSlice) (AstSlice, error) {
 			length := len(asts)
@@ -104,34 +104,34 @@ func objectValue() ParserFn {
 	return Trans(
 		FlatGroup(
 			erase((Seq("{"))),
-			erase(sp0()),
+			sp0(),
 			ZeroOrOnce(
 				objectKeyValuePair(),
 				ZeroOrMoreTimes(
 					erase((Seq(","))),
-					erase(sp0()),
+					sp0(),
 					First(
 						objectKeyValuePair(),
 						LookAhead(Seq("}")),
 						FlatGroup(
-							erase(sp0()),
+							sp0(),
 							Error("Expect object closing bracket '}' or key-value pair"),
 						),
 					),
 				),
 				ZeroOrOnce(
 					erase((Seq(","))),
-					erase(sp0()),
+					sp0(),
 				),
 			),
 			First(
 				erase((Seq("}"))),
 				FlatGroup(
-					erase(sp0()),
+					sp0(),
 					Error("Expect object closing bracket '}'"),
 				),
 			),
-			erase(sp0()),
+			sp0(),
 		),
 		tableTransformer,
 	)
@@ -140,12 +140,12 @@ func objectValue() ParserFn {
 func jsonDocument() ParserFn {
 	return FlatGroup(
 		Start(),
-		erase(sp0()),
+		sp0(),
 		First(
 			primitiveValue(),
 			listValue(),
 			objectValue(),
-			erase(sp0()),
+			sp0(),
 		),
 		First(
 			End(),

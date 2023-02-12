@@ -217,7 +217,7 @@ func radixNumberParser(prefix string, radix int, radixNumbrrStr ParserFn) Parser
 	)
 }
 
-func numberValue() ParserFn {
+func numberValueInner() ParserFn {
 	return First(
 		FlatGroup(
 			First(
@@ -248,6 +248,10 @@ func numberValue() ParserFn {
 		negativeInfinityValue(),
 		nanValue(),
 	)
+}
+
+func numberValue() ParserFn {
+	return numberValueInner()
 }
 
 func stringValue() ParserFn {
@@ -320,13 +324,13 @@ func dottedIdentifier(allowLb bool) ParserFn {
 			),
 			OneOrMoreTimes(
 				If(allowLb,
-					erase(sp0()),
-					erase(sp0NoLb()),
+					sp0(),
+					sp0NoLb(),
 				),
 				erase(CharClass(".")),
 				If(allowLb,
-					erase(sp0()),
-					erase(sp0NoLb()),
+					sp0(),
+					sp0NoLb(),
 				),
 				First(
 					stringValue(),

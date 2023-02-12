@@ -19,13 +19,13 @@ func init() {
 func tomlTableKeyValuePair() ParserFn {
 	return FlatGroup(
 		objectKey(false),
-		erase(sp0NoLb()),
+		sp0NoLb(),
 		erase(CharClass("=")),
-		erase(sp0NoLb()),
+		sp0NoLb(),
 		First(
 			FlatGroup(
 				primitiveValue(),
-				erase(sp0NoLb()),
+				sp0NoLb(),
 				First(
 					erase(CharClass("\r\n", "\r", "\n")),
 					LookAhead(End()),
@@ -44,11 +44,11 @@ func tomlArrayOfTable() ParserFn {
 			erase(CharClass("[[")),
 			First(
 				FlatGroup(
-					erase(sp0NoLb()),
+					sp0NoLb(),
 					objectKey(false),
-					erase(sp0NoLb()),
+					sp0NoLb(),
 					erase(CharClass("]]")),
-					erase(sp0NoLb()),
+					sp0NoLb(),
 				),
 				Error("Expect array of table closing bracket ']]'"),
 			),
@@ -57,13 +57,13 @@ func tomlArrayOfTable() ParserFn {
 				LookAhead(End()),
 				Error("Expect line break or EOF"),
 			),
-			erase(sp0()),
+			sp0(),
 			Trans(
 				ZeroOrMoreTimes(
 					First(
 						tomlTableKeyValuePair(),
 					),
-					erase(sp0()),
+					sp0(),
 				),
 				tableTransformer,
 				ChangeClassName("TomlArrayOfTable"),
@@ -78,11 +78,11 @@ func tomlTable() ParserFn {
 			erase(CharClass("[")),
 			First(
 				FlatGroup(
-					erase(sp0NoLb()),
+					sp0NoLb(),
 					objectKey(false),
-					erase(sp0NoLb()),
+					sp0NoLb(),
 					erase(CharClass("]")),
-					erase(sp0NoLb()),
+					sp0NoLb(),
 				),
 				Error("Expect table closing bracket ']'"),
 			),
@@ -91,13 +91,13 @@ func tomlTable() ParserFn {
 				LookAhead(End()),
 				Error("Expect line break or EOF"),
 			),
-			erase(sp0()),
+			sp0(),
 			Trans(
 				ZeroOrMoreTimes(
 					First(
 						tomlTableKeyValuePair(),
 					),
-					erase(sp0()),
+					sp0(),
 				),
 				tableTransformer,
 				ChangeClassName("TomlTable"),
@@ -110,14 +110,14 @@ func tomlDocument() ParserFn {
 	return Trans(
 		FlatGroup(
 			Start(),
-			erase(sp0()),
+			sp0(),
 			OneOrMoreTimes(
 				First(
 					tomlTableKeyValuePair(),
 					tomlArrayOfTable(),
 					tomlTable(),
 				),
-				erase(sp0()),
+				sp0(),
 			),
 			First(
 				End(),
