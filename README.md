@@ -361,6 +361,14 @@ inf
 `foo
 bar`
 ```
+```yaml
+"""foo
+bar"""
+```
+```yaml
+'''foo
+bar'''
+```
 ```js
 "Hello\n\r\v\t\b\fWorld!"
 ```
