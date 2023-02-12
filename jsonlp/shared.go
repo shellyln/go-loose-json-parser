@@ -113,7 +113,7 @@ func nullValue() ParserFn {
 	)
 }
 
-func positiveInfinityValue() ParserFn {
+func positiveInfinityValue(checkBoundary bool) ParserFn {
 	nilParser := Zero(nilAst)
 	infParser := Zero(positiveInfinityAst)
 	return FlatGroup(
@@ -121,7 +121,10 @@ func positiveInfinityValue() ParserFn {
 			ZeroOrOnce(Seq("+")),
 			CharClass("Infinity", "inf"),
 		)),
-		extra.UnicodeWordBoundary(),
+		If(checkBoundary,
+			extra.UnicodeWordBoundary(),
+			Zero(),
+		),
 		func(ctx ParserContext) (ParserContext, error) {
 			if ctx.Tag.(parseOptions).interop {
 				return nilParser(ctx)
@@ -132,12 +135,15 @@ func positiveInfinityValue() ParserFn {
 	)
 }
 
-func negativeInfinityValue() ParserFn {
+func negativeInfinityValue(checkBoundary bool) ParserFn {
 	nilParser := Zero(nilAst)
 	infParser := Zero(negativeInfinityAst)
 	return FlatGroup(
 		erase(CharClass("-Infinity", "-inf")),
-		extra.UnicodeWordBoundary(),
+		If(checkBoundary,
+			extra.UnicodeWordBoundary(),
+			Zero(),
+		),
 		func(ctx ParserContext) (ParserContext, error) {
 			if ctx.Tag.(parseOptions).interop {
 				return nilParser(ctx)
@@ -148,12 +154,15 @@ func negativeInfinityValue() ParserFn {
 	)
 }
 
-func nanValue() ParserFn {
+func nanValue(checkBoundary bool) ParserFn {
 	nilParser := Zero(nilAst)
 	nanParser := Zero(nanAst)
 	return FlatGroup(
 		erase(CharClass("+nan", "-nan", "NaN", "nan")),
-		extra.UnicodeWordBoundary(),
+		If(checkBoundary,
+			extra.UnicodeWordBoundary(),
+			Zero(),
+		),
 		func(ctx ParserContext) (ParserContext, error) {
 			if ctx.Tag.(parseOptions).interop {
 				return nilParser(ctx)
@@ -247,9 +256,9 @@ func numberValueInner(checkBoundary bool) ParserFn {
 				Zero(),
 			),
 		),
-		positiveInfinityValue(),
-		negativeInfinityValue(),
-		nanValue(),
+		positiveInfinityValue(checkBoundary),
+		negativeInfinityValue(checkBoundary),
+		nanValue(checkBoundary),
 	)
 }
 
@@ -262,6 +271,7 @@ func numberValue() ParserFn {
 				CharClass("+", "-"),
 				sp0NoLb(),
 				numberValueInner(false),
+				erase(ZeroOrMoreTimes(Seq("_"))),
 				erase(Seq("i")),
 				extra.UnicodeWordBoundary(),
 			),

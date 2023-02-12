@@ -662,6 +662,11 @@ func TestJsonParse1(t *testing.T) {
 		want:    complex(1.23, -34.5),
 		wantErr: false,
 	}, {
+		name:    "j1-14b2",
+		args:    args{s: ` 1.23 - 34.5_i `},
+		want:    complex(1.23, -34.5),
+		wantErr: false,
+	}, {
 		name:    "j1-14c",
 		args:    args{s: `-1.23+34.5i`},
 		want:    complex(-1.23, +34.5),
@@ -700,6 +705,31 @@ func TestJsonParse1(t *testing.T) {
 		name:    "j1-14j",
 		args:    args{s: `0x1.8p+1-0x1.8p-1i`},
 		want:    complex(3, -0.75),
+		wantErr: false,
+		// }, {
+		// 	name:    "j1-14k",
+		// 	args:    args{s: `NaN-NaNi`},
+		// 	want:    complex(math.NaN(), math.NaN()),
+		// 	wantErr: false,
+	}, {
+		name:    "j1-14l1",
+		args:    args{s: `Infinity-Infinityi`},
+		want:    complex(math.Inf(1), math.Inf(-1)),
+		wantErr: false,
+	}, {
+		name:    "j1-14l2",
+		args:    args{s: `Infinity - Infinity_i`},
+		want:    complex(math.Inf(1), math.Inf(-1)),
+		wantErr: false,
+	}, {
+		name:    "j1-14m1",
+		args:    args{s: `Infinity--Infinityi`},
+		want:    complex(math.Inf(1), math.Inf(1)),
+		wantErr: false,
+	}, {
+		name:    "j1-14m2",
+		args:    args{s: `Infinity - -Infinity_i`},
+		want:    complex(math.Inf(1), math.Inf(1)),
 		wantErr: false,
 	}}
 

@@ -360,6 +360,18 @@ inf
 ```js
 0x1.8p+1 - 0x1.8p-1i
 ```
+```js
+NaN-NaNi
+```
+```js
+NaN - NaN_i
+```
+```js
+Infinity-Infinityi
+```
+```js
+Infinity - Infinity_i
+```
 
 ### String
 
