@@ -1,5 +1,10 @@
 # Changelog
 
+# v0.0.9
+* Improve JSON string parser: support TOML style multiline strings.
+* Edit wasm example.
+* Edit README.
+
 # v0.0.8
 * Added hexadecimal float literals.
 * Added tests.
