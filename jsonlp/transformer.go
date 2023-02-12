@@ -103,6 +103,42 @@ func decimalNumberTransformer(ctx ParserContext, asts AstSlice) (AstSlice, error
 	}
 }
 
+func numberOrComplexTransform(ctx ParserContext, asts AstSlice) (AstSlice, error) {
+	if len(asts) == 1 {
+		return asts, nil
+	}
+	sign := 1.0
+	var re, im float64
+
+	switch x := asts[0].Value.(type) {
+	case float64:
+		re = x
+	case int64:
+		re = float64(x)
+	case uint64:
+		re = float64(x)
+	}
+
+	if asts[1].Value.(string) == "-" {
+		sign = -1
+	}
+
+	switch x := asts[2].Value.(type) {
+	case float64:
+		im = x
+	case int64:
+		im = float64(x)
+	case uint64:
+		im = float64(x)
+	}
+
+	return AstSlice{{
+		ClassName: "Complex",
+		Type:      AstType_Any,
+		Value:     complex(re, sign*im),
+	}}, nil
+}
+
 func tableTransformer(ctx ParserContext, asts AstSlice) (AstSlice, error) {
 	length := len(asts)
 	v := make(map[string]interface{})

@@ -145,8 +145,8 @@ func jsonDocument() ParserFn {
 			primitiveValue(),
 			listValue(),
 			objectValue(),
-			sp0(),
 		),
+		sp0(),
 		First(
 			End(),
 			Error("Expect terminatiion"),

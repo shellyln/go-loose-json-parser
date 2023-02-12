@@ -44,8 +44,13 @@ func runMatrixParse(t *testing.T, tests []testMatrixItem) {
 
 func TestJsonParse1(t *testing.T) {
 	tests := []testMatrixItem{{
-		name:    "j1-1",
+		name:    "j1-1a",
 		args:    args{s: `null`},
+		want:    nil,
+		wantErr: false,
+	}, {
+		name:    "j1-1b",
+		args:    args{s: ` null `},
 		want:    nil,
 		wantErr: false,
 	}, {
@@ -645,6 +650,56 @@ func TestJsonParse1(t *testing.T) {
 				},
 			},
 		},
+		wantErr: false,
+	}, {
+		name:    "j1-14a",
+		args:    args{s: `1.23-34.5i`},
+		want:    complex(1.23, -34.5),
+		wantErr: false,
+	}, {
+		name:    "j1-14b",
+		args:    args{s: ` 1.23 - 34.5i `},
+		want:    complex(1.23, -34.5),
+		wantErr: false,
+	}, {
+		name:    "j1-14c",
+		args:    args{s: `-1.23+34.5i`},
+		want:    complex(-1.23, +34.5),
+		wantErr: false,
+	}, {
+		name:    "j1-14d",
+		args:    args{s: ` -1.23 + 34.5i `},
+		want:    complex(-1.23, +34.5),
+		wantErr: false,
+	}, {
+		name:    "j1-14e",
+		args:    args{s: `123s64-345u64i`},
+		want:    complex(123, -345),
+		wantErr: false,
+	}, {
+		name:    "j1-14f",
+		args:    args{s: `123u64-345s64i`},
+		want:    complex(123, -345),
+		wantErr: false,
+	}, {
+		name:    "j1-14g",
+		args:    args{s: `0xffs64-0x7fu64i`},
+		want:    complex(255, -127),
+		wantErr: false,
+	}, {
+		name:    "j1-14h",
+		args:    args{s: `0xffu64-0x7fs64i`},
+		want:    complex(255, -127),
+		wantErr: false,
+	}, {
+		name:    "j1-14i",
+		args:    args{s: `1.23e+1-34.5e-1i`},
+		want:    complex(12.3, -3.45),
+		wantErr: false,
+	}, {
+		name:    "j1-14j",
+		args:    args{s: `0x1.8p+1-0x1.8p-1i`},
+		want:    complex(3, -0.75),
 		wantErr: false,
 	}}
 

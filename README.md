@@ -84,10 +84,6 @@ func main() {
 * Platform-dependent newline in multiline string
 * Error detection when values are overwritten
 
-### Enhancement
-
-* Complex number literals
-  * e.g. `1.25 + 0.75i`
 
 ## 🪄 Example
 
@@ -351,6 +347,18 @@ inf
 ```
 ```js
 -inf
+```
+
+### Complex
+
+```js
+1.23 - 34.5i
+```
+```js
+1.23e+1 - 34.5e-1i
+```
+```js
+0x1.8p+1 - 0x1.8p-1i
 ```
 
 ### String

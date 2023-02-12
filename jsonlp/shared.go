@@ -217,7 +217,7 @@ func radixNumberParser(prefix string, radix int, radixNumbrrStr ParserFn) Parser
 	)
 }
 
-func numberValueInner() ParserFn {
+func numberValueInner(checkBoundary bool) ParserFn {
 	return First(
 		FlatGroup(
 			First(
@@ -242,7 +242,10 @@ func numberValueInner() ParserFn {
 					decimalNumberTransformer,
 				),
 			),
-			extra.UnicodeWordBoundary(),
+			If(checkBoundary,
+				extra.UnicodeWordBoundary(),
+				Zero(),
+			),
 		),
 		positiveInfinityValue(),
 		negativeInfinityValue(),
@@ -251,7 +254,20 @@ func numberValueInner() ParserFn {
 }
 
 func numberValue() ParserFn {
-	return numberValueInner()
+	return Trans(
+		FlatGroup(
+			numberValueInner(true),
+			ZeroOrOnce(
+				sp0NoLb(),
+				CharClass("+", "-"),
+				sp0NoLb(),
+				numberValueInner(false),
+				erase(Seq("i")),
+				extra.UnicodeWordBoundary(),
+			),
+		),
+		numberOrComplexTransform,
+	)
 }
 
 func stringValue() ParserFn {
