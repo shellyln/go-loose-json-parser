@@ -23,7 +23,7 @@ import (
 func main() {
     // src:     Loose JSON
     // interop: If true, replace NaN, Infinity by null
-    // parsed:  nil | []any | map[string]any | float64 | int64 | uint64 | string | bool | time.Time
+    // parsed:  nil | []any | map[string]any | float64 | int64 | uint64 | complex128 | string | bool | time.Time
     parsed, err := jsonlp.Parse(`{
         // comment
         config: {
@@ -53,7 +53,7 @@ import (
 func main() {
     // src:     Loose TOML
     // interop: If true, replace NaN, Infinity by null
-    // parsed:  nil | []any | map[string]any | float64 | int64 | uint64 | string | bool | time.Time
+    // parsed:  nil | []any | map[string]any | float64 | int64 | uint64 | complex128 | string | bool | time.Time
     parsed, err := jsonlp.ParseTOML(`
     # comment
     [config]
