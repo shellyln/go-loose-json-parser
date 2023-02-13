@@ -11,7 +11,8 @@ import (
 )
 
 type args struct {
-	s string
+	s       string
+	interop jsonlp.InteropType
 }
 
 type testMatrixItem struct {
@@ -25,7 +26,7 @@ type testMatrixItem struct {
 func runMatrixParse(t *testing.T, tests []testMatrixItem) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := jsonlp.Parse(tt.args.s, false)
+			got, err := jsonlp.Parse(tt.args.s, tt.args.interop)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("%v: Parse() error = %v, wantErr %v", tt.name, err, tt.wantErr)
 				return
@@ -730,6 +731,178 @@ func TestJsonParse1(t *testing.T) {
 		name:    "j1-14m2",
 		args:    args{s: `Infinity - -Infinity_i`},
 		want:    complex(math.Inf(1), math.Inf(1)),
+		wantErr: false,
+	}}
+
+	runMatrixParse(t, tests)
+}
+
+func TestJsonParse2(t *testing.T) {
+	tests := []testMatrixItem{{
+		name:    "j2-1a",
+		args:    args{s: `NaN`, interop: jsonlp.Interop_JSON},
+		want:    map[string]interface{}{"nan": true},
+		wantErr: false,
+	}, {
+		name:    "j2-2a",
+		args:    args{s: `Infinity`, interop: jsonlp.Interop_JSON},
+		want:    map[string]interface{}{"inf": float64(1)},
+		wantErr: false,
+	}, {
+		name:    "j2-3a",
+		args:    args{s: `-Infinity`, interop: jsonlp.Interop_JSON},
+		want:    map[string]interface{}{"inf": float64(-1)},
+		wantErr: false,
+	}, {
+		name:    "j2-4a",
+		args:    args{s: `12.34-56.78i`, interop: jsonlp.Interop_JSON},
+		want:    map[string]interface{}{"re": float64(12.34), "im": float64(-56.78)},
+		wantErr: false,
+	}, {
+		name:    "j2-5a",
+		args:    args{s: `12.34-infi`, interop: jsonlp.Interop_JSON},
+		want:    map[string]interface{}{"re": float64(12.34), "im": map[string]interface{}{"inf": float64(-1)}},
+		wantErr: false,
+	}, {
+		name:    "j2-6a",
+		args:    args{s: `inf-56.78i`, interop: jsonlp.Interop_JSON},
+		want:    map[string]interface{}{"re": map[string]interface{}{"inf": float64(1)}, "im": float64(-56.78)},
+		wantErr: false,
+	}, {
+		name:    "j2-7a",
+		args:    args{s: `12.34-nani`, interop: jsonlp.Interop_JSON},
+		want:    map[string]interface{}{"re": float64(12.34), "im": map[string]interface{}{"nan": true}},
+		wantErr: false,
+	}, {
+		name:    "j2-8a",
+		args:    args{s: `nan-56.78i`, interop: jsonlp.Interop_JSON},
+		want:    map[string]interface{}{"re": map[string]interface{}{"nan": true}, "im": float64(-56.78)},
+		wantErr: false,
+	}, {
+		name:    "j2-9a",
+		args:    args{s: `NaN`, interop: jsonlp.Interop_JSON_AsNull},
+		want:    nil,
+		wantErr: false,
+	}, {
+		name:    "j2-10a",
+		args:    args{s: `Infinity`, interop: jsonlp.Interop_JSON_AsNull},
+		want:    nil,
+		wantErr: false,
+	}, {
+		name:    "j2-11a",
+		args:    args{s: `-Infinity`, interop: jsonlp.Interop_JSON_AsNull},
+		want:    nil,
+		wantErr: false,
+	}, {
+		name:    "j2-12a",
+		args:    args{s: `12.34-56.78i`, interop: jsonlp.Interop_JSON_AsNull},
+		want:    nil,
+		wantErr: false,
+	}, {
+		name:    "j2-13a",
+		args:    args{s: `12.34-infi`, interop: jsonlp.Interop_JSON_AsNull},
+		want:    nil,
+		wantErr: false,
+	}, {
+		name:    "j2-14a",
+		args:    args{s: `inf-56.78i`, interop: jsonlp.Interop_JSON_AsNull},
+		want:    nil,
+		wantErr: false,
+	}, {
+		name:    "j2-15a",
+		args:    args{s: `12.34-nani`, interop: jsonlp.Interop_JSON_AsNull},
+		want:    nil,
+		wantErr: false,
+	}, {
+		name:    "j2-16a",
+		args:    args{s: `nan-56.78i`, interop: jsonlp.Interop_JSON_AsNull},
+		want:    nil,
+		wantErr: false,
+	}}
+
+	runMatrixParse(t, tests)
+}
+
+func TestJsonParse3(t *testing.T) {
+	tests := []testMatrixItem{{
+		// 	name:    "j3-1a",
+		// 	args:    args{s: `NaN`, interop: jsonlp.Interop_TOML},
+		// 	want:    math.NaN(),
+		// 	wantErr: false,
+		// }, {
+		name:    "j3-2a",
+		args:    args{s: `Infinity`, interop: jsonlp.Interop_TOML},
+		want:    math.Inf(1),
+		wantErr: false,
+	}, {
+		name:    "j3-3a",
+		args:    args{s: `-Infinity`, interop: jsonlp.Interop_TOML},
+		want:    math.Inf(-1),
+		wantErr: false,
+	}, {
+		name:    "j3-4a",
+		args:    args{s: `12.34-56.78i`, interop: jsonlp.Interop_TOML},
+		want:    map[string]interface{}{"re": float64(12.34), "im": float64(-56.78)},
+		wantErr: false,
+	}, {
+		name:    "j3-5a",
+		args:    args{s: `12.34-infi`, interop: jsonlp.Interop_TOML},
+		want:    map[string]interface{}{"re": float64(12.34), "im": math.Inf(-1)},
+		wantErr: false,
+	}, {
+		name:    "j3-6a",
+		args:    args{s: `inf-56.78i`, interop: jsonlp.Interop_TOML},
+		want:    map[string]interface{}{"re": math.Inf(1), "im": float64(-56.78)},
+		wantErr: false,
+		// }, {
+		// 	name:    "j3-7a",
+		// 	args:    args{s: `12.34-nani`, interop: jsonlp.Interop_TOML},
+		// 	want:    map[string]interface{}{"re": float64(12.34), "im": math.NaN()},
+		// 	wantErr: false,
+		// }, {
+		// 	name:    "j3-8a",
+		// 	args:    args{s: `nan-56.78i`, interop: jsonlp.Interop_TOML},
+		// 	want:    map[string]interface{}{"re": math.NaN(), "im": float64(-56.78)},
+		// 	wantErr: false,
+		// }, {
+		// 	name:    "j3-9a",
+		// 	args:    args{s: `NaN`, interop: jsonlp.Interop_TOML_AsNull},
+		// 	want:    math.NaN(),
+		// 	wantErr: false,
+	}, {
+		name:    "j3-10a",
+		args:    args{s: `Infinity`, interop: jsonlp.Interop_TOML_AsNull},
+		want:    math.Inf(1),
+		wantErr: false,
+	}, {
+		name:    "j3-11a",
+		args:    args{s: `-Infinity`, interop: jsonlp.Interop_TOML_AsNull},
+		want:    math.Inf(-1),
+		wantErr: false,
+	}, {
+		name:    "j3-12a",
+		args:    args{s: `12.34-56.78i`, interop: jsonlp.Interop_TOML_AsNull},
+		want:    nil,
+		wantErr: false,
+	}, {
+		name:    "j3-13a",
+		args:    args{s: `12.34-infi`, interop: jsonlp.Interop_TOML_AsNull},
+		want:    nil,
+		wantErr: false,
+	}, {
+		name:    "j3-14a",
+		args:    args{s: `inf-56.78i`, interop: jsonlp.Interop_TOML_AsNull},
+		want:    nil,
+		wantErr: false,
+	}, {
+		name:    "j3-15a",
+		args:    args{s: `12.34-nani`, interop: jsonlp.Interop_TOML_AsNull},
+		want:    nil,
+		wantErr: false,
+	}, {
+		name:    "j3-16a",
+		args:    args{s: `nan-56.78i`, interop: jsonlp.Interop_TOML_AsNull},
+		want:    nil,
 		wantErr: false,
 	}}
 

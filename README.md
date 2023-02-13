@@ -21,15 +21,29 @@ import (
 )
 
 func main() {
-    // src:     Loose JSON
-    // interop: If true, replace NaN, Infinity by null
-    // parsed:  nil | []any | map[string]any | float64 | int64 | uint64 | complex128 | string | bool | time.Time
+    // src: Loose JSON
+    //
+    // interop:
+    // * If `Interop_JSON` is set,
+    //   replace NaN, Infinity, complex number
+    //   by `{nan:true}`, `{inf:+/-1}`, `{re:re,im:im}` .
+    // * If `Interop_TOML` is set,
+    //   replace complex number by `{re:re,im:im}` .
+    // * If `Interop_JSON_AsNull` is set,
+    //   replace NaN, Infinity, complex number by null.
+    // * If `Interop_TOML_AsNull` is set,
+    //   replace complex number by null.
+    //
+    // parsed:
+    //   nil | []any | map[string]any |
+    //   float64 | int64 | uint64 | complex128 |
+    //   string | bool | time.Time
     parsed, err := jsonlp.Parse(`{
         // comment
         config: {
             addr: '127.0.0.1',
         }
-    }`, false)
+    }`, jsonlp.Interop_None)
 
     if err != nil {
         fmt.Printf("Parse: error = %v\n", err)
@@ -51,14 +65,28 @@ import (
 )
 
 func main() {
-    // src:     Loose TOML
-    // interop: If true, replace NaN, Infinity by null
-    // parsed:  nil | []any | map[string]any | float64 | int64 | uint64 | complex128 | string | bool | time.Time
+    // src: Loose TOML
+    //
+    // interop:
+    // * If `Interop_JSON` is set,
+    //   replace NaN, Infinity, complex number
+    //   by `{nan:true}`, `{inf:+/-1}`, `{re:re,im:im}` .
+    // * If `Interop_TOML` is set,
+    //   replace complex number by `{re:re,im:im}` .
+    // * If `Interop_JSON_AsNull` is set,
+    //   replace NaN, Infinity, complex number by null.
+    // * If `Interop_TOML_AsNull` is set,
+    //   replace complex number by null.
+    //
+    // parsed:
+    //   nil | []any | map[string]any |
+    //   float64 | int64 | uint64 | complex128 |
+    //   string | bool | time.Time
     parsed, err := jsonlp.ParseTOML(`
     # comment
     [config]
     addr = '127.0.0.1'
-    `, false)
+    `, jsonlp.Interop_None)
 
     if err != nil {
         fmt.Printf("Parse: error = %v\n", err)

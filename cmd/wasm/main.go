@@ -23,7 +23,7 @@ func normalizeJSON(this js.Value, args []js.Value) interface{} {
 		indent = args[1].Int()
 	}
 
-	parsed, err := jsonlp.Parse(src, true)
+	parsed, err := jsonlp.Parse(src, jsonlp.Interop_JSON)
 	if err != nil {
 		return js.ValueOf(err.Error())
 	}
@@ -55,7 +55,7 @@ func normalizeTOML(this js.Value, args []js.Value) interface{} {
 		indent = args[1].Int()
 	}
 
-	parsed, err := jsonlp.ParseTOML(src, true)
+	parsed, err := jsonlp.ParseTOML(src, jsonlp.Interop_JSON)
 	if err != nil {
 		return js.ValueOf(err.Error())
 	}

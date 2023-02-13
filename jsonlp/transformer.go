@@ -108,7 +108,7 @@ func numberOrComplexTransform(ctx ParserContext, asts AstSlice) (AstSlice, error
 		return asts, nil
 	}
 	sign := 1.0
-	var re, im float64
+	var re, im interface{}
 
 	switch x := asts[0].Value.(type) {
 	case float64:
@@ -117,6 +117,8 @@ func numberOrComplexTransform(ctx ParserContext, asts AstSlice) (AstSlice, error
 		re = float64(x)
 	case uint64:
 		re = float64(x)
+	case map[string]interface{}:
+		re = x
 	}
 
 	if asts[1].Value.(string) == "-" {
@@ -125,18 +127,37 @@ func numberOrComplexTransform(ctx ParserContext, asts AstSlice) (AstSlice, error
 
 	switch x := asts[2].Value.(type) {
 	case float64:
-		im = x
+		im = sign * x
 	case int64:
-		im = float64(x)
+		im = sign * float64(x)
 	case uint64:
-		im = float64(x)
+		im = sign * float64(x)
+	case map[string]interface{}:
+		if _, ok := x["inf"]; ok {
+			x["inf"] = sign * x["inf"].(float64)
+		}
+		im = x
 	}
 
-	return AstSlice{{
-		ClassName: "Complex",
-		Type:      AstType_Any,
-		Value:     complex(re, sign*im),
-	}}, nil
+	switch ctx.Tag.(parseOptions).interop {
+	case Interop_JSON, Interop_TOML:
+		return AstSlice{{
+			ClassName: "Complex",
+			Type:      AstType_Any,
+			Value: map[string]interface{}{
+				"re": re,
+				"im": im,
+			},
+		}}, nil
+	case Interop_JSON_AsNull, Interop_TOML_AsNull:
+		return AstSlice{nilAst}, nil
+	default:
+		return AstSlice{{
+			ClassName: "Complex",
+			Type:      AstType_Any,
+			Value:     complex(re.(float64), im.(float64)),
+		}}, nil
+	}
 }
 
 func tableTransformer(ctx ParserContext, asts AstSlice) (AstSlice, error) {

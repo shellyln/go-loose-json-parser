@@ -6,10 +6,20 @@ import (
 	. "github.com/shellyln/takenoco/string"
 )
 
+type InteropType int
+
 type parseOptions struct {
-	interop bool
+	interop InteropType
 	isTOML  bool
 }
+
+const (
+	Interop_None InteropType = iota
+	Interop_JSON
+	Interop_TOML
+	Interop_JSON_AsNull
+	Interop_TOML_AsNull
+)
 
 // Remove the resulting AST.
 func erase(fn ParserFn) ParserFn {
@@ -126,9 +136,19 @@ func positiveInfinityValue(checkBoundary bool) ParserFn {
 			Zero(),
 		),
 		func(ctx ParserContext) (ParserContext, error) {
-			if ctx.Tag.(parseOptions).interop {
+			switch ctx.Tag.(parseOptions).interop {
+			case Interop_JSON:
+				return Zero(Ast{
+					OpCode:    0,
+					ClassName: "Inf",
+					Type:      AstType_Any,
+					Value: map[string]interface{}{
+						"inf": float64(1),
+					},
+				})(ctx)
+			case Interop_JSON_AsNull:
 				return nilParser(ctx)
-			} else {
+			default:
 				return infParser(ctx)
 			}
 		},
@@ -145,9 +165,19 @@ func negativeInfinityValue(checkBoundary bool) ParserFn {
 			Zero(),
 		),
 		func(ctx ParserContext) (ParserContext, error) {
-			if ctx.Tag.(parseOptions).interop {
+			switch ctx.Tag.(parseOptions).interop {
+			case Interop_JSON:
+				return Zero(Ast{
+					OpCode:    0,
+					ClassName: "Inf",
+					Type:      AstType_Any,
+					Value: map[string]interface{}{
+						"inf": float64(-1),
+					},
+				})(ctx)
+			case Interop_JSON_AsNull:
 				return nilParser(ctx)
-			} else {
+			default:
 				return infParser(ctx)
 			}
 		},
@@ -164,9 +194,19 @@ func nanValue(checkBoundary bool) ParserFn {
 			Zero(),
 		),
 		func(ctx ParserContext) (ParserContext, error) {
-			if ctx.Tag.(parseOptions).interop {
+			switch ctx.Tag.(parseOptions).interop {
+			case Interop_JSON:
+				return Zero(Ast{
+					OpCode:    0,
+					ClassName: "NaN",
+					Type:      AstType_Any,
+					Value: map[string]interface{}{
+						"nan": true,
+					},
+				})(ctx)
+			case Interop_JSON_AsNull:
 				return nilParser(ctx)
-			} else {
+			default:
 				return nanParser(ctx)
 			}
 		},

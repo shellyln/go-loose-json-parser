@@ -128,10 +128,17 @@ func tomlDocument() ParserFn {
 	)
 }
 
-// src:     TOML
-// interop: If true, replace NaN, Infinity by null
-// parsed:  nil | []any | map[string]any | float64 | int64 | uint64 | complex128 | string | bool | time.Time
-func ParseTOML(s string, interop bool) (interface{}, error) {
+// src: Loose TOML
+//
+// interop:
+// If Interop_JSON is set, replace NaN, Infinity, complex number by `{nan:true}`, `{inf:+/-1}`, `{re:re,im:im}`.
+// If Interop_TOML is set, replace complex number by `{re:re,im:im}`.
+// If Interop_JSON_AsNull is set, replace NaN, Infinity, complex number by null.
+// If Interop_TOML_AsNull is set, replace complex number by null.
+//
+// parsed:
+// nil | []any | map[string]any | float64 | int64 | uint64 | complex128 | string | bool | time.Time
+func ParseTOML(s string, interop InteropType) (interface{}, error) {
 	ctx := *NewStringParserContext(s)
 	ctx.Tag = parseOptions{interop: interop, isTOML: true}
 
