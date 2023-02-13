@@ -1,5 +1,9 @@
 # Changelog
 
+# v0.0.12
+* [Breaking change] Change interop parameter type.
+* Edit README.
+
 # v0.0.11
 * Added complex number parser.
 * Remove unnecessary `erase()` call.
