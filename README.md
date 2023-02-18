@@ -149,7 +149,7 @@ func main() {
 
 ```
 
-> **NOTE**
+> **Note**
 > `Unmarshal` also works well for typed to untyped conversions and as deep cloning.
 
 ## 🚧 TODO
