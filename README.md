@@ -97,11 +97,65 @@ func main() {
 }
 ```
 
+### Unmarshal
+Mapping untyped data to a typed variable.
+```go
+package main
+
+import (
+    "fmt"
+    "github.com/shellyln/go-loose-json-parser/jsonlp"
+    "github.com/shellyln/go-loose-json-parser/marshal"
+)
+
+type config struct {
+    Addr string `json:addr`
+}
+
+type response struct {
+    Config config `json:config`
+}
+
+func main() {
+    parsed, err := jsonlp.Parse(`{
+        // comment
+        config: {
+            addr: '127.0.0.1',
+        }
+    }`, jsonlp.Interop_None)
+
+    if err != nil {
+        fmt.Printf("Parse: error = %v\n", err)
+        return
+    }
+
+    var typed response
+
+    // src:  Source data. Untyped in typical use.
+    // dst:  Pointer to result data. Typed in typical use.
+    // opts: Pointer to struct of the `Unmarshal` options. If nil, use default.
+    //       Default options are {
+    //           TagName: "json",               // Tag name of the struct fields
+    //           NoCopyUnexportedFields: false, // If true, no shallow copying of unexported fields
+    //           NoCustomMarshaller: false,     // If true, IMarshal and IUnmarshal are not used
+    //       }
+    if err := marshal.Unmarshal(parsed, &typed, nil); err != nil {
+        fmt.Printf("Unmarshal: error = %v\n", err)
+        return
+    }
+
+    fmt.Printf("Typed = %v\n", typed)
+}
+
+```
+
+NOTE: `Unmarshal` also works well for typed to untyped conversions and as deep cloning.
+
 ## 🚧 TODO
 
 ### APIs
 
-* Marshalling from any to typed
+* ✅ ~~Marshalling from any to typed~~
 
 ### TOML
 
