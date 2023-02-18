@@ -252,8 +252,10 @@ func unmarshalCore(rvFrom, rvTo reflect.Value, ctx *marshalContext, rvFromReused
 					}
 				}
 				rvSrcValue := rvFrom.MapIndex(reflect.ValueOf(destFieldName))
-				if err := unmarshalCore(rvSrcValue, rvTo.Field(i), ctx, false); err != nil {
-					return err
+				if rvSrcValue.IsValid() {
+					if err := unmarshalCore(rvSrcValue, rvTo.Field(i), ctx, false); err != nil {
+						return err
+					}
 				}
 			}
 
