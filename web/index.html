@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.11/codemirror.min.css"
         integrity="sha512-uf06llspW44/LZpHzHT6qBOIVODjWtv4MxCricRxkzvopAlSWnTf6hpZTFxuuZcuNE9CBQhqE0Seu1CoRk84nQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.11/theme/dracula.min.css"
+        integrity="sha512-gFMl3u9d0xt3WR8ZeW05MWm3yZ+ZfgsBVXLSOiFz2xeVrZ8Neg0+V1kkRIo9LikyA/T9HuS91kDfc2XWse0K0A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.11/codemirror.min.js"
         integrity="sha512-rdFIN28+neM8H8zNsjRClhJb1fIYby2YCNmoqwnqBDEvZgpcp7MJiX8Wd+Oi6KcJOMOuvGztjrsI59rly9BsVQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -20,28 +23,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.11/mode/toml/toml.min.js"
         integrity="sha512-O6QYGRZVa6FLNVTWPdLXXiVC4pNCVA6NNVW29i7qHFprs/Wat4QrjSKjINcoCT+2IySTFmfIoIp2yZmWoafQsg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="./index.css" />
 
-    <style>
-        body {
-            font-family:
-                "Helvetica Neue",
-                Arial,
-                "Hiragino Kaku Gothic ProN",
-                "Hiragino Sans",
-                Meiryo,
-                sans-serif;
-        }
-        .input-area .CodeMirror {
-            border: 1px solid #eee;
-            height: calc((100vh - 70px) * 0.66);
-            margin: 3px;
-        }
-        .output-area .CodeMirror {
-            border: 1px solid #eee;
-            height: calc((100vh - 70px) * 0.33);
-            margin: 3px;
-        }
-    </style>
     <script>
         {
             const go = new Go();
@@ -66,15 +49,14 @@
     </script>
 </head>
 <body>
-    <div style="display: flex;">
-        <h4 style="margin: 0 auto 0 0;"><img
+    <div class="top-nav">
+        <h4 class="title"><img
+            class="logo" alt="logo"
             src="https://shellyln.github.io/assets/image/logo-go-jsonlp.svg"
-            alt="logo" style="width:20px; margin-right: 0.55rem; vertical-align: middle;">Loose JSON | TOML normalizer <span
-            style="font-size: x-small;" id="version"></span></h4>
-        <div style="font-size: smaller;">Powered by <a href="https://github.com/shellyln/go-loose-json-parser"
-            target="_blank"
-            style="color: unset;"
-            >go-loose-json-parser</a></div>
+            >Loose JSON | TOML normalizer <span id="version"></span></h4>
+        <div class="sub">Powered by <a
+            href="https://github.com/shellyln/go-loose-json-parser"
+            target="_blank">go-loose-json-parser</a></div>
     </div>
     <div>
         <div class="input-area">
@@ -85,21 +67,31 @@
 ]
 </textarea>
         </div>
-        <div>
+        <div class="commands-area">
             <form name="form1">
-                <button onclick="execNormalize(event)">Normalize loose JSON|TOML to strict JSON</button>
-                <span style="margin-left: 2em;">Indent:</span>
-                <select name="indent">
-                    <option value="0" selected>0</option>
-                    <option value="2">2</option>
-                    <option value="4">4</option>
-                    <option value="8">8</option>
-                </select>
-                <span style="margin-left: 1em;">Input:</span>
-                <input type="radio" id="lang-json" name="lang" value="json" checked onchange="changeLang(event)">
-                <label for="lang-json">JSON</label>
-                <input type="radio" id="lang-toml" name="lang" value="toml" onchange="changeLang(event)">
-                <label for="lang-toml">TOML</label>
+                <div class="commands-area-inner">
+                    <div class="left">
+                        <button onclick="execNormalize(event)">Normalize loose JSON|TOML to strict JSON</button>
+                        <span class="indent">Indent:</span>
+                        <select name="indent">
+                            <option value="0" selected>0</option>
+                            <option value="2">2</option>
+                            <option value="4">4</option>
+                            <option value="8">8</option>
+                        </select>
+                        <span class="input">Input:</span>
+                        <input type="radio" id="lang-json" name="lang" value="json" checked
+                            onchange="changeLang(event)">
+                        <label for="lang-json">JSON</label>
+                        <input type="radio" id="lang-toml" name="lang" value="toml"
+                            onchange="changeLang(event)">
+                        <label for="lang-toml">TOML</label>
+                    </div>
+                    <div>
+                        <div id="copied">✓ Copied</div>
+                        <button onclick="copyToClipboard(event)">📋Copy</button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
@@ -108,41 +100,6 @@
             <textarea id="result-area"></textarea>
         </div>
     </div>
-
-    <script>
-        const myCodeMirrorIn = CodeMirror.fromTextArea(document.querySelector('#loosejson'), {mode:'javascript', lineNumbers: true});
-        const myCodeMirrorOut = CodeMirror.fromTextArea(document.querySelector('#result-area'), {mode:'javascript', lineNumbers: true, lineWrapping: true});
-
-        function changeLang(event) {
-            if (event.target.value === 'toml') {
-                myCodeMirrorIn.setOption('mode', 'toml');
-            } else {
-                myCodeMirrorIn.setOption('mode', 'javascript');
-            }
-        }
-
-        function execNormalize(event) {
-            event.preventDefault();
-            try {
-                let indent = Number(document.querySelector('select[name=indent]')?.value ?? '0');
-                let lang;
-                for (const item of document.form1.lang) {
-                    if (item.checked) {
-                        lang = item.value;
-                    }
-                }
-                let result;
-                if (lang === 'toml') {
-                    result = normalizeTOML(myCodeMirrorIn.getDoc().getValue(), indent);
-                } else {
-                    result = normalizeJSON(myCodeMirrorIn.getDoc().getValue(), indent);
-                }
-                myCodeMirrorOut.getDoc().setValue(result);
-            } catch(e) {
-                rebootGoApplication();
-                myCodeMirrorOut.getDoc().setValue(e.message ?? e);
-            }
-        }
-    </script>
+    <script src="./index.js"></script>
 </body>
 </html>
