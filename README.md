@@ -1,5 +1,5 @@
 # Loose JSON + TOML parsers for Go
-Super loose JSON + TOML parsers for Go.
+Super loose JSON + TOML parsers and unmarshaller for Go.
 
 [![Test](https://github.com/shellyln/go-loose-json-parser/actions/workflows/test.yml/badge.svg)](https://github.com/shellyln/go-loose-json-parser/actions/workflows/test.yml)
 [![release](https://img.shields.io/github/v/release/shellyln/go-loose-json-parser)](https://github.com/shellyln/go-loose-json-parser/releases)
@@ -9,7 +9,13 @@ Super loose JSON + TOML parsers for Go.
 
 ---
 
-## 🚀 Usage
+## 📦 Example app
+
+* [Loose JSON | TOML normalizer](https://shellyln.github.io/jsonlp/) (WebAssembly)
+    * Normalize loose JSON | TOML to strict JSON
+    * [Code](https://github.com/shellyln/go-loose-json-parser/blob/master/cmd/wasm/main.go)
+
+## 🚀 Getting started
 
 ### JSON
 ```go
@@ -168,7 +174,7 @@ func main() {
 * Error detection when values are overwritten
 
 
-## 🪄 Example
+## 🪄 Examples
 
 ### JSON
 
