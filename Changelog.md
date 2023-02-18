@@ -1,5 +1,12 @@
 # Changelog
 
+# v0.0.13
+* Added unmarshaller.
+* [Breaking change] The required minimum version of Go has changed from 1.17 to 1.18.
+  * Change `go.mod` and `test.yml`.
+* Edit README.
+* Edit wasm example html.
+
 # v0.0.12
 * [Breaking change] Change interop parameter type.
 * Edit README.
