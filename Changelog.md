@@ -1,5 +1,8 @@
 # Changelog
 
+# v0.0.14
+* [FIX] Fix unmarshaller; Conversion from map to struct causes an error if there is no key matching the field name in the map.
+
 # v0.0.13
 * Added unmarshaller.
 * [Breaking change] The required minimum version of Go has changed from 1.17 to 1.18.
