@@ -109,11 +109,11 @@ import (
 )
 
 type config struct {
-    Addr string `json:addr`
+    Addr string `json:"addr"`
 }
 
 type response struct {
-    Config config `json:config`
+    Config config `json:"config"`
 }
 
 func main() {
