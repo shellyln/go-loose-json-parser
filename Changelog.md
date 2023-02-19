@@ -1,5 +1,9 @@
 # Changelog
 
+# v0.0.15
+* Using constants for ClassName.
+* Edit README.
+
 # v0.0.14
 * [FIX] Fix unmarshaller; Conversion from map to struct causes an error if there is no key matching the field name in the map.
 
