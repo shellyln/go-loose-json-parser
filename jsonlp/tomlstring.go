@@ -1,6 +1,7 @@
 package jsonlp
 
 import (
+	"github.com/shellyln/go-loose-json-parser/jsonlp/class"
 	. "github.com/shellyln/takenoco/base"
 	. "github.com/shellyln/takenoco/string"
 )
@@ -225,6 +226,6 @@ func tomlStringValue() ParserFn {
 			),
 		),
 		Concat,
-		ChangeClassName("String"),
+		ChangeClassName(class.String),
 	)
 }

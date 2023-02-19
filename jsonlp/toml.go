@@ -4,6 +4,7 @@ import (
 	"errors"
 	"strconv"
 
+	"github.com/shellyln/go-loose-json-parser/jsonlp/class"
 	. "github.com/shellyln/takenoco/base"
 	. "github.com/shellyln/takenoco/string"
 )
@@ -66,7 +67,7 @@ func tomlArrayOfTable() ParserFn {
 					sp0(),
 				),
 				tableTransformer,
-				ChangeClassName("TomlArrayOfTable"),
+				ChangeClassName(class.TomlArrayOfTable),
 			),
 		),
 	)
@@ -100,7 +101,7 @@ func tomlTable() ParserFn {
 					sp0(),
 				),
 				tableTransformer,
-				ChangeClassName("TomlTable"),
+				ChangeClassName(class.TomlTable),
 			),
 		),
 	)

@@ -1,6 +1,7 @@
 package jsonlp
 
 import (
+	"github.com/shellyln/go-loose-json-parser/jsonlp/class"
 	. "github.com/shellyln/takenoco/base"
 	"github.com/shellyln/takenoco/extra"
 	. "github.com/shellyln/takenoco/string"
@@ -140,7 +141,7 @@ func positiveInfinityValue(checkBoundary bool) ParserFn {
 			case Interop_JSON:
 				return Zero(Ast{
 					OpCode:    0,
-					ClassName: "Inf",
+					ClassName: class.Inf,
 					Type:      AstType_Any,
 					Value: map[string]interface{}{
 						"inf": float64(1),
@@ -169,7 +170,7 @@ func negativeInfinityValue(checkBoundary bool) ParserFn {
 			case Interop_JSON:
 				return Zero(Ast{
 					OpCode:    0,
-					ClassName: "Inf",
+					ClassName: class.Inf,
 					Type:      AstType_Any,
 					Value: map[string]interface{}{
 						"inf": float64(-1),
@@ -198,7 +199,7 @@ func nanValue(checkBoundary bool) ParserFn {
 			case Interop_JSON:
 				return Zero(Ast{
 					OpCode:    0,
-					ClassName: "NaN",
+					ClassName: class.NaN,
 					Type:      AstType_Any,
 					Value: map[string]interface{}{
 						"nan": true,
@@ -276,7 +277,7 @@ func numberValueInner(checkBoundary bool) ParserFn {
 				Trans(
 					extra.FloatNumberStr(),
 					ParseFloat,
-					ChangeClassName("Float"),
+					ChangeClassName(class.Float),
 				),
 				Trans(
 					FlatGroup(
@@ -377,7 +378,7 @@ func primitiveValue() ParserFn {
 func identifier() ParserFn {
 	return Trans(
 		tomlUnicodeIdentifierStr(),
-		ChangeClassName("Idenitifier"),
+		ChangeClassName(class.Idenitifier),
 	)
 }
 
@@ -411,7 +412,7 @@ func dottedIdentifier(allowLb bool) ParserFn {
 				v[i] = asts[i].Value.(string)
 			}
 			return AstSlice{{
-				ClassName: "DottedIdenitifier",
+				ClassName: class.DottedIdenitifier,
 				Type:      AstType_ListOfAny,
 				Value:     v,
 			}}, nil

@@ -3,13 +3,14 @@ package jsonlp
 import (
 	"math"
 
+	"github.com/shellyln/go-loose-json-parser/jsonlp/class"
 	. "github.com/shellyln/takenoco/base"
 )
 
 // Parser constant value
 var nilAst = Ast{
 	OpCode:    0,
-	ClassName: "Null",
+	ClassName: class.Null,
 	Type:      AstType_Nil,
 	Value:     nil,
 }
@@ -17,7 +18,7 @@ var nilAst = Ast{
 // Parser constant value
 var trueAst = Ast{
 	OpCode:    0,
-	ClassName: "Bool",
+	ClassName: class.Bool,
 	Type:      AstType_Bool,
 	Value:     true,
 }
@@ -25,7 +26,7 @@ var trueAst = Ast{
 // Parser constant value
 var falseAst = Ast{
 	OpCode:    0,
-	ClassName: "Bool",
+	ClassName: class.Bool,
 	Type:      AstType_Bool,
 	Value:     false,
 }
@@ -41,7 +42,7 @@ var falseAst = Ast{
 // Parser constant value
 var positiveInfinityAst = Ast{
 	OpCode:    0,
-	ClassName: "Float",
+	ClassName: class.Float,
 	Type:      AstType_Float,
 	Value:     math.Inf(1),
 }
@@ -49,7 +50,7 @@ var positiveInfinityAst = Ast{
 // Parser constant value
 var negativeInfinityAst = Ast{
 	OpCode:    0,
-	ClassName: "Float",
+	ClassName: class.Float,
 	Type:      AstType_Float,
 	Value:     math.Inf(-1),
 }
@@ -57,7 +58,7 @@ var negativeInfinityAst = Ast{
 // Parser constant value
 var nanAst = Ast{
 	OpCode:    0,
-	ClassName: "Float",
+	ClassName: class.Float,
 	Type:      AstType_Float,
 	Value:     math.NaN(),
 }

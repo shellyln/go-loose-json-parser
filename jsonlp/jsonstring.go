@@ -1,6 +1,7 @@
 package jsonlp
 
 import (
+	"github.com/shellyln/go-loose-json-parser/jsonlp/class"
 	. "github.com/shellyln/takenoco/base"
 	. "github.com/shellyln/takenoco/string"
 )
@@ -87,6 +88,6 @@ func jsonStringValue() ParserFn {
 			stringLiteralInner("`", true),
 		),
 		Concat,
-		ChangeClassName("String"),
+		ChangeClassName(class.String),
 	)
 }

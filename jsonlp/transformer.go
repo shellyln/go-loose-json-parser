@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/shellyln/go-loose-json-parser/jsonlp/class"
 	. "github.com/shellyln/takenoco/base"
 	. "github.com/shellyln/takenoco/string"
 )
@@ -21,7 +22,7 @@ func radixNumberTransformer(prefix string, radix int) TransformerFn {
 				return nil, err
 			}
 			return AstSlice{{
-				ClassName: "Float",
+				ClassName: class.Float,
 				Type:      AstType_Float,
 				Value:     v,
 			}}, nil
@@ -34,7 +35,7 @@ func radixNumberTransformer(prefix string, radix int) TransformerFn {
 				return nil, err
 			}
 			return AstSlice{{
-				ClassName: "Int",
+				ClassName: class.Int,
 				Type:      AstType_Int,
 				Value:     int64(v),
 			}}, nil
@@ -47,7 +48,7 @@ func radixNumberTransformer(prefix string, radix int) TransformerFn {
 				return nil, err
 			}
 			return AstSlice{{
-				ClassName: "Uint",
+				ClassName: class.Uint,
 				Type:      AstType_Uint,
 				Value:     v,
 			}}, nil
@@ -60,7 +61,7 @@ func radixNumberTransformer(prefix string, radix int) TransformerFn {
 				return nil, err
 			}
 			return AstSlice{{
-				ClassName: "Float",
+				ClassName: class.Float,
 				Type:      AstType_Float,
 				Value:     float64(v),
 			}}, nil
@@ -76,7 +77,7 @@ func decimalNumberTransformer(ctx ParserContext, asts AstSlice) (AstSlice, error
 			return nil, err
 		}
 		return AstSlice{{
-			ClassName: "Int",
+			ClassName: class.Int,
 			Type:      AstType_Int,
 			Value:     int64(v),
 		}}, nil
@@ -86,7 +87,7 @@ func decimalNumberTransformer(ctx ParserContext, asts AstSlice) (AstSlice, error
 			return nil, err
 		}
 		return AstSlice{{
-			ClassName: "Uint",
+			ClassName: class.Uint,
 			Type:      AstType_Uint,
 			Value:     v,
 		}}, nil
@@ -96,7 +97,7 @@ func decimalNumberTransformer(ctx ParserContext, asts AstSlice) (AstSlice, error
 			return nil, err
 		}
 		return AstSlice{{
-			ClassName: "Float",
+			ClassName: class.Float,
 			Type:      AstType_Float,
 			Value:     v,
 		}}, nil
@@ -142,7 +143,7 @@ func numberOrComplexTransform(ctx ParserContext, asts AstSlice) (AstSlice, error
 	switch ctx.Tag.(parseOptions).interop {
 	case Interop_JSON, Interop_TOML:
 		return AstSlice{{
-			ClassName: "Complex",
+			ClassName: class.Complex,
 			Type:      AstType_Any,
 			Value: map[string]interface{}{
 				"re": re,
@@ -153,7 +154,7 @@ func numberOrComplexTransform(ctx ParserContext, asts AstSlice) (AstSlice, error
 		return AstSlice{nilAst}, nil
 	default:
 		return AstSlice{{
-			ClassName: "Complex",
+			ClassName: class.Complex,
 			Type:      AstType_Any,
 			Value:     complex(re.(float64), im.(float64)),
 		}}, nil
@@ -173,7 +174,7 @@ func tableTransformer(ctx ParserContext, asts AstSlice) (AstSlice, error) {
 			// Simple identifier
 			merged := false
 
-			if asts[i+1].ClassName == "TomlArrayOfTable" {
+			if asts[i+1].ClassName == class.TomlArrayOfTable {
 				var a2 []map[string]interface{}
 				if tmp, ok := v[w].([]map[string]interface{}); ok {
 					a2 = tmp
@@ -214,7 +215,7 @@ func tableTransformer(ctx ParserContext, asts AstSlice) (AstSlice, error) {
 					merged := false
 					table := lastRefs[makeDottedKey(w, j)]
 
-					if asts[i+1].ClassName == "TomlArrayOfTable" {
+					if asts[i+1].ClassName == class.TomlArrayOfTable {
 						var a2 []map[string]interface{}
 						if tmp, ok := (*table)[key].([]map[string]interface{}); ok {
 							a2 = tmp
@@ -278,7 +279,7 @@ func tableTransformer(ctx ParserContext, asts AstSlice) (AstSlice, error) {
 		}
 	}
 	return AstSlice{{
-		ClassName: "Object",
+		ClassName: class.Object,
 		Type:      AstType_Any,
 		Value:     v,
 	}}, nil

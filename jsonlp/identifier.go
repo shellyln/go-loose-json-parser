@@ -3,6 +3,7 @@ package jsonlp
 import (
 	"unicode"
 
+	"github.com/shellyln/go-loose-json-parser/jsonlp/class"
 	. "github.com/shellyln/takenoco/base"
 	. "github.com/shellyln/takenoco/string"
 )
@@ -30,6 +31,6 @@ func tomlUnicodeIdentifierStr() ParserFn {
 			)),
 		),
 		Concat,
-		ChangeClassName("IdentifierStr"),
+		ChangeClassName(class.IdentifierStr),
 	)
 }
