@@ -159,12 +159,12 @@ func main() {
 > `Unmarshal` also works well for typed to untyped conversions and as deep cloning.
 
 ## 🥅 Goal
-* ✅ Can read strict TOML.
+* 🟨 Can read strict TOML.
 * ✅ Can read loose JSON, JSONC, JSON5, and TOML for configuration files.
 * ✅ Can be mapped to structs, untyped maps/slices, or primitives.
 * ✅ Can read many list and map literals in JavaScript, Python, PHP, Ruby, etc.
 
-## 🚧 TODO
+## 🚧 ToDo
 
 ### APIs
 
@@ -173,9 +173,9 @@ func main() {
 ### TOML
 
 * ✅ ~~Datetime format with date and time delimited by space (RFC 3339 section 5.6)~~
-  * e.g. `2006-01-02 15:04:05Z`
+  * ~~e.g. `2006-01-02 15:04:05Z`~~
 * ✅ ~~Datetime format without timezone~~
-  * e.g. `2006-01-02T15:04:05`
+  * ~~e.g. `2006-01-02T15:04:05`~~
 * Platform-dependent newline in multiline string
 * Error detection when values are overwritten
 

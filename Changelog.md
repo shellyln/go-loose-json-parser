@@ -1,5 +1,10 @@
 # Changelog
 
+# v0.0.17
+* Added Datetime formats.
+  * Datetime format with date and time delimited by space (RFC 3339 section 5.6). e.g. `2006-01-02 15:04:05Z`
+  * Datetime format without timezone. e.g. `2006-01-02T15:04:05`
+
 # v0.0.16
 * Empty string to number marshalling sets a zero value.
 * Changed some keywords to be case-insensitive.
