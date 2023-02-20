@@ -158,6 +158,12 @@ func main() {
 > **Note**  
 > `Unmarshal` also works well for typed to untyped conversions and as deep cloning.
 
+## 🥅 Goal
+* Can read strict TOML.
+* Can read loose JSON, JSONC, JSON5, and TOML for configuration files.
+* Can be mapped to structs, untyped maps/slices, or primitives.
+* Can read many list and map literals in JavaScript, Python, PHP, Ruby, etc.
+
 ## 🚧 TODO
 
 ### APIs
