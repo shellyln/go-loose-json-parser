@@ -29,6 +29,12 @@ import (
 func main() {
     // src: Loose JSON
     //
+    // plafLb:
+    // * Platform-dependent line break.
+    //   * `Linebreak_Lf` | `Linebreak_CrLf` | `Linebreak_Cr`
+    // * Line break codes in multi-line string are replaced by this specified line break.
+    //   (Excluding line breaks by escape sequences)
+    //
     // interop:
     // * If `Interop_JSON` is set,
     //   replace NaN, Infinity, complex number
@@ -44,12 +50,12 @@ func main() {
     //   nil | []any | map[string]any |
     //   float64 | int64 | uint64 | complex128 |
     //   string | bool | time.Time
-    parsed, err := jsonlp.Parse(`{
+    parsed, err := jsonlp.ParseJSON(`{
         // comment
         config: {
             addr: '127.0.0.1',
         }
-    }`, jsonlp.Interop_None)
+    }`, jsonlp.Linebreak_Lf, jsonlp.Interop_None)
 
     if err != nil {
         fmt.Printf("Parse: error = %v\n", err)
@@ -73,6 +79,12 @@ import (
 func main() {
     // src: Loose TOML
     //
+    // plafLb:
+    // * Platform-dependent line break.
+    //   * `Linebreak_Lf` | `Linebreak_CrLf` | `Linebreak_Cr`
+    // * Line break codes in multi-line string are replaced by this specified line break.
+    //   (Excluding line breaks by escape sequences)
+    //
     // interop:
     // * If `Interop_JSON` is set,
     //   replace NaN, Infinity, complex number
@@ -92,7 +104,7 @@ func main() {
     # comment
     [config]
     addr = '127.0.0.1'
-    `, jsonlp.Interop_None)
+    `, jsonlp.Linebreak_Lf, jsonlp.Interop_None)
 
     if err != nil {
         fmt.Printf("Parse: error = %v\n", err)

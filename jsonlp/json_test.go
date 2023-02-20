@@ -12,6 +12,7 @@ import (
 
 type args struct {
 	s       string
+	plafLb  jsonlp.PlatformLinebreakType
 	interop jsonlp.InteropType
 }
 
@@ -26,7 +27,7 @@ type testMatrixItem struct {
 func runMatrixParse(t *testing.T, tests []testMatrixItem) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := jsonlp.Parse(tt.args.s, tt.args.interop)
+			got, err := jsonlp.ParseJSON(tt.args.s, tt.args.plafLb, tt.args.interop)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("%v: Parse() error = %v, wantErr %v", tt.name, err, tt.wantErr)
 				return
@@ -780,12 +781,34 @@ func TestJsonParse1(t *testing.T) {
 	}, {
 		name: "j1-15a1",
 		args: args{s: `{
-		str1: ` + "`" + `The quick brown
+		str1: ` + "`" + `The quick\nbrown
 fox jumps over
 the lazy dog.` + "`" + `
 		}`},
 		want: map[string]interface{}{
-			"str1": "The quick brown\nfox jumps over\nthe lazy dog.",
+			"str1": "The quick\nbrown\nfox jumps over\nthe lazy dog.",
+		},
+		wantErr: false,
+	}, {
+		name: "j1-15a2",
+		args: args{s: `{
+		str1: ` + "`" + `The quick\nbrown
+fox jumps over
+the lazy dog.` + "`" + `
+		}`, plafLb: jsonlp.Linebreak_CrLf},
+		want: map[string]interface{}{
+			"str1": "The quick\nbrown\r\nfox jumps over\r\nthe lazy dog.",
+		},
+		wantErr: false,
+	}, {
+		name: "j1-15a3",
+		args: args{s: `{
+		str1: ` + "`" + `The quick\nbrown
+fox jumps over
+the lazy dog.` + "`" + `
+		}`, plafLb: jsonlp.Linebreak_Cr},
+		want: map[string]interface{}{
+			"str1": "The quick\nbrown\rfox jumps over\rthe lazy dog.",
 		},
 		wantErr: false,
 	}}

@@ -16,12 +16,12 @@ func TestTag1(t *testing.T) {
 		Config config `json:"config"`
 	}
 
-	parsed, err := jsonlp.Parse(`{
+	parsed, err := jsonlp.ParseJSON(`{
         // comment
         config: {
             addr: '127.0.0.1',
         }
-    }`, jsonlp.Interop_None)
+    }`, jsonlp.Linebreak_Lf, jsonlp.Interop_None)
 
 	if err != nil {
 		t.Errorf("Parse: error = %v\n", err)
@@ -52,12 +52,12 @@ func TestTag2(t *testing.T) {
 		Config config
 	}
 
-	parsed, err := jsonlp.Parse(`{
+	parsed, err := jsonlp.ParseJSON(`{
         // comment
         config: {
             addr: '127.0.0.1',
         }
-    }`, jsonlp.Interop_None)
+    }`, jsonlp.Linebreak_Lf, jsonlp.Interop_None)
 
 	if err != nil {
 		t.Errorf("Parse: error = %v\n", err)
@@ -86,10 +86,10 @@ func TestZeroOrNull1(t *testing.T) {
 		Bar *int `json:"bar"`
 	}
 
-	parsed, err := jsonlp.Parse(`{
+	parsed, err := jsonlp.ParseJSON(`{
         foo: null,
         bar: null,
-    }`, jsonlp.Interop_None)
+    }`, jsonlp.Linebreak_Lf, jsonlp.Interop_None)
 
 	if err != nil {
 		t.Errorf("Parse: error = %v\n", err)
@@ -117,10 +117,10 @@ func TestZeroOrNull2(t *testing.T) {
 		Bar int `json:"bar"`
 	}
 
-	parsed, err := jsonlp.Parse(`{
+	parsed, err := jsonlp.ParseJSON(`{
         foo: "",
         bar: "1",
-    }`, jsonlp.Interop_None)
+    }`, jsonlp.Linebreak_Lf, jsonlp.Interop_None)
 
 	if err != nil {
 		t.Errorf("Parse: error = %v\n", err)
@@ -148,10 +148,10 @@ func TestZeroOrNull3(t *testing.T) {
 		Bar uint `json:"bar"`
 	}
 
-	parsed, err := jsonlp.Parse(`{
+	parsed, err := jsonlp.ParseJSON(`{
         foo: "",
         bar: "1",
-    }`, jsonlp.Interop_None)
+    }`, jsonlp.Linebreak_Lf, jsonlp.Interop_None)
 
 	if err != nil {
 		t.Errorf("Parse: error = %v\n", err)
@@ -179,10 +179,10 @@ func TestZeroOrNull4(t *testing.T) {
 		Bar float64 `json:"bar"`
 	}
 
-	parsed, err := jsonlp.Parse(`{
+	parsed, err := jsonlp.ParseJSON(`{
         foo: "",
         bar: "1",
-    }`, jsonlp.Interop_None)
+    }`, jsonlp.Linebreak_Lf, jsonlp.Interop_None)
 
 	if err != nil {
 		t.Errorf("Parse: error = %v\n", err)
@@ -210,10 +210,10 @@ func TestZeroOrNull5(t *testing.T) {
 		Bar complex128 `json:"bar"`
 	}
 
-	parsed, err := jsonlp.Parse(`{
+	parsed, err := jsonlp.ParseJSON(`{
         foo: "",
         bar: "1",
-    }`, jsonlp.Interop_None)
+    }`, jsonlp.Linebreak_Lf, jsonlp.Interop_None)
 
 	if err != nil {
 		t.Errorf("Parse: error = %v\n", err)
@@ -241,10 +241,10 @@ func TestZeroOrNull6(t *testing.T) {
 		Bar bool `json:"bar"`
 	}
 
-	parsed, err := jsonlp.Parse(`{
+	parsed, err := jsonlp.ParseJSON(`{
         foo: "",
         bar: "1",
-    }`, jsonlp.Interop_None)
+    }`, jsonlp.Linebreak_Lf, jsonlp.Interop_None)
 
 	if err != nil {
 		t.Errorf("Parse: error = %v\n", err)

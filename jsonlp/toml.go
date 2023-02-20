@@ -131,6 +131,11 @@ func tomlDocument() ParserFn {
 
 // src: Loose TOML
 //
+// plafLb:
+// Platform-dependent line break. (`Linebreak_Lf` | `Linebreak_CrLf` | `Linebreak_Cr`)
+// Line break codes in multi-line string are replaced by this specified line break.
+// (Excluding line breaks by escape sequences)
+//
 // interop:
 // If Interop_JSON is set, replace NaN, Infinity, complex number by `{nan:true}`, `{inf:+/-1}`, `{re:re,im:im}`.
 // If Interop_TOML is set, replace complex number by `{re:re,im:im}`.
@@ -139,13 +144,20 @@ func tomlDocument() ParserFn {
 //
 // parsed:
 // nil | []any | map[string]any | float64 | int64 | uint64 | complex128 | string | bool | time.Time
-func ParseTOML(s string, interop InteropType) (interface{}, error) {
+func ParseTOML(s string, plafLb PlatformLinebreakType, interop InteropType) (interface{}, error) {
 	ctx := *NewStringParserContext(s)
-	ctx.Tag = parseOptions{
+	opts := parseOptions{
 		interop:           interop,
 		platformLinebreak: "\n",
 		isTOML:            true,
 	}
+	switch plafLb {
+	case Linebreak_CrLf:
+		opts.platformLinebreak = "\r\n"
+	case Linebreak_Cr:
+		opts.platformLinebreak = "\r"
+	}
+	ctx.Tag = opts
 
 	out, err := tomlParser(ctx)
 	if err != nil {

@@ -9,12 +9,6 @@ import (
 
 type InteropType int
 
-type parseOptions struct {
-	interop           InteropType
-	platformLinebreak string
-	isTOML            bool
-}
-
 const (
 	Interop_None InteropType = iota
 	Interop_JSON
@@ -22,6 +16,20 @@ const (
 	Interop_JSON_AsNull
 	Interop_TOML_AsNull
 )
+
+type PlatformLinebreakType int
+
+const (
+	Linebreak_Lf PlatformLinebreakType = iota
+	Linebreak_CrLf
+	Linebreak_Cr
+)
+
+type parseOptions struct {
+	interop           InteropType
+	platformLinebreak string
+	isTOML            bool
+}
 
 // Remove the resulting AST.
 func erase(fn ParserFn) ParserFn {

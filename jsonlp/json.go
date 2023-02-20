@@ -157,6 +157,11 @@ func jsonDocument() ParserFn {
 
 // src: Loose JSON
 //
+// plafLb:
+// Platform-dependent line break. (`Linebreak_Lf` | `Linebreak_CrLf` | `Linebreak_Cr`)
+// Line break codes in multi-line string are replaced by this specified line break.
+// (Excluding line breaks by escape sequences)
+//
 // interop:
 // If Interop_JSON is set, replace NaN, Infinity, complex number by `{nan:true}`, `{inf:+/-1}`, `{re:re,im:im}`.
 // If Interop_TOML is set, replace complex number by `{re:re,im:im}`.
@@ -165,13 +170,20 @@ func jsonDocument() ParserFn {
 //
 // parsed:
 // nil | []any | map[string]any | float64 | int64 | uint64 | complex128 | string | bool | time.Time
-func Parse(s string, interop InteropType) (interface{}, error) {
+func ParseJSON(s string, plafLb PlatformLinebreakType, interop InteropType) (interface{}, error) {
 	ctx := *NewStringParserContext(s)
-	ctx.Tag = parseOptions{
+	opts := parseOptions{
 		interop:           interop,
 		platformLinebreak: "\n",
 		isTOML:            false,
 	}
+	switch plafLb {
+	case Linebreak_CrLf:
+		opts.platformLinebreak = "\r\n"
+	case Linebreak_Cr:
+		opts.platformLinebreak = "\r"
+	}
+	ctx.Tag = opts
 
 	out, err := jsonParser(ctx)
 	if err != nil {

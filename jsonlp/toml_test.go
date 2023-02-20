@@ -14,7 +14,7 @@ func runMatrixTomlParse(t *testing.T, tests []testMatrixItem) {
 			if tt.dbg {
 				fmt.Println("")
 			}
-			got, err := jsonlp.ParseTOML(tt.args.s, tt.args.interop)
+			got, err := jsonlp.ParseTOML(tt.args.s, tt.args.plafLb, tt.args.interop)
 			if tt.dbg {
 				fmt.Println("")
 			}
@@ -653,24 +653,72 @@ The quick brown \
 		name: "t3-4a",
 		args: args{s: `
 		str1 = '''
-The quick brown
+The quick\nbrown
 fox jumps over
 the lazy dog.'''
 		`},
 		want: map[string]interface{}{
-			"str1": "The quick brown\nfox jumps over\nthe lazy dog.",
+			"str1": "The quick\\nbrown\nfox jumps over\nthe lazy dog.",
 		},
 		wantErr: false,
 	}, {
 		name: "t3-5a",
 		args: args{s: `
 		str1 = """
-The quick brown
+The quick\nbrown
 fox jumps over
 the lazy dog."""
 		`},
 		want: map[string]interface{}{
-			"str1": "The quick brown\nfox jumps over\nthe lazy dog.",
+			"str1": "The quick\nbrown\nfox jumps over\nthe lazy dog.",
+		},
+		wantErr: false,
+	}, {
+		name: "t3-6a",
+		args: args{s: `
+		str1 = '''
+The quick\nbrown
+fox jumps over
+the lazy dog.'''
+		`, plafLb: jsonlp.Linebreak_CrLf},
+		want: map[string]interface{}{
+			"str1": "The quick\\nbrown\r\nfox jumps over\r\nthe lazy dog.",
+		},
+		wantErr: false,
+	}, {
+		name: "t3-7a",
+		args: args{s: `
+		str1 = """
+The quick\nbrown
+fox jumps over
+the lazy dog."""
+		`, plafLb: jsonlp.Linebreak_CrLf},
+		want: map[string]interface{}{
+			"str1": "The quick\nbrown\r\nfox jumps over\r\nthe lazy dog.",
+		},
+		wantErr: false,
+	}, {
+		name: "t3-8a",
+		args: args{s: `
+		str1 = '''
+The quick\nbrown
+fox jumps over
+the lazy dog.'''
+		`, plafLb: jsonlp.Linebreak_Cr},
+		want: map[string]interface{}{
+			"str1": "The quick\\nbrown\rfox jumps over\rthe lazy dog.",
+		},
+		wantErr: false,
+	}, {
+		name: "t3-9a",
+		args: args{s: `
+		str1 = """
+The quick\nbrown
+fox jumps over
+the lazy dog."""
+		`, plafLb: jsonlp.Linebreak_Cr},
+		want: map[string]interface{}{
+			"str1": "The quick\nbrown\rfox jumps over\rthe lazy dog.",
 		},
 		wantErr: false,
 	}}
@@ -680,7 +728,7 @@ the lazy dog."""
 
 func TestTomlParse4(t *testing.T) {
 	// Test Strict IEEE-754 +0/-0
-	got, err := jsonlp.ParseTOML(`x = 0.0`, jsonlp.Interop_None)
+	got, err := jsonlp.ParseTOML(`x = 0.0`, jsonlp.Linebreak_Lf, jsonlp.Interop_None)
 	if err != nil {
 		t.Errorf("0.0: Parse() error = %v", err)
 		return
@@ -690,7 +738,7 @@ func TestTomlParse4(t *testing.T) {
 		return
 	}
 
-	got, err = jsonlp.ParseTOML(`x = +0.0`, jsonlp.Interop_None)
+	got, err = jsonlp.ParseTOML(`x = +0.0`, jsonlp.Linebreak_Lf, jsonlp.Interop_None)
 	if err != nil {
 		t.Errorf("+0.0: Parse() error = %v", err)
 		return
@@ -700,7 +748,7 @@ func TestTomlParse4(t *testing.T) {
 		return
 	}
 
-	got, err = jsonlp.ParseTOML(`x = -0.0`, jsonlp.Interop_None)
+	got, err = jsonlp.ParseTOML(`x = -0.0`, jsonlp.Linebreak_Lf, jsonlp.Interop_None)
 	if err != nil {
 		t.Errorf("-0.0: Parse() error = %v", err)
 		return
@@ -710,7 +758,7 @@ func TestTomlParse4(t *testing.T) {
 		return
 	}
 
-	got, err = jsonlp.ParseTOML(`x = +0`, jsonlp.Interop_None)
+	got, err = jsonlp.ParseTOML(`x = +0`, jsonlp.Linebreak_Lf, jsonlp.Interop_None)
 	if err != nil {
 		t.Errorf("+0: Parse() error = %v", err)
 		return
@@ -720,7 +768,7 @@ func TestTomlParse4(t *testing.T) {
 		return
 	}
 
-	got, err = jsonlp.ParseTOML(`x = -0`, jsonlp.Interop_None)
+	got, err = jsonlp.ParseTOML(`x = -0`, jsonlp.Linebreak_Lf, jsonlp.Interop_None)
 	if err != nil {
 		t.Errorf("-0: Parse() error = %v", err)
 		return
@@ -730,7 +778,7 @@ func TestTomlParse4(t *testing.T) {
 		return
 	}
 
-	got, err = jsonlp.ParseTOML(`x = 0x0p-1074`, jsonlp.Interop_None)
+	got, err = jsonlp.ParseTOML(`x = 0x0p-1074`, jsonlp.Linebreak_Lf, jsonlp.Interop_None)
 	if err != nil {
 		t.Errorf("0x0p-1074: Parse() error = %v", err)
 		return
@@ -740,7 +788,7 @@ func TestTomlParse4(t *testing.T) {
 		return
 	}
 
-	got, err = jsonlp.ParseTOML(`x = +0x0p-1074`, jsonlp.Interop_None)
+	got, err = jsonlp.ParseTOML(`x = +0x0p-1074`, jsonlp.Linebreak_Lf, jsonlp.Interop_None)
 	if err != nil {
 		t.Errorf("+0x0p-1074: Parse() error = %v", err)
 		return
@@ -750,7 +798,7 @@ func TestTomlParse4(t *testing.T) {
 		return
 	}
 
-	got, err = jsonlp.ParseTOML(`x = -0x0p-1074`, jsonlp.Interop_None)
+	got, err = jsonlp.ParseTOML(`x = -0x0p-1074`, jsonlp.Linebreak_Lf, jsonlp.Interop_None)
 	if err != nil {
 		t.Errorf("-0x0p-1074: Parse() error = %v", err)
 		return
