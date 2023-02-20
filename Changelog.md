@@ -1,5 +1,12 @@
 # Changelog
 
+# v0.0.16
+* Empty string to number marshalling sets a zero value.
+* Changed some keywords to be case-insensitive.
+  * `null`, `inf`, `nan`
+* Added keyword `None`.
+* Edit README.
+
 # v0.0.15
 * Using constants for ClassName.
 * Edit README.

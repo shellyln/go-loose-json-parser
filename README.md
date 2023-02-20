@@ -517,9 +517,15 @@ false
 
 ```js
 null
+// -> nil
 ```
 ```js
 undefined
+// -> nil
+```
+```rust
+None
+// -> nil
 ```
 
 ### Comment
