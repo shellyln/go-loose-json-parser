@@ -284,3 +284,10 @@ func tableTransformer(ctx ParserContext, asts AstSlice) (AstSlice, error) {
 		Value:     v,
 	}}, nil
 }
+
+func platformLinebreakTransformer(ctx ParserContext, asts AstSlice) (AstSlice, error) {
+	return AstSlice{Ast{
+		Type:  AstType_String,
+		Value: ctx.Tag.(parseOptions).platformLinebreak,
+	}}, nil
+}

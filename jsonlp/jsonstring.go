@@ -62,12 +62,7 @@ func stringLiteralInner(cc string, multiline bool) ParserFn {
 						First(
 							Trans(
 								CharClass("\r\n", "\r", "\n"),
-								func(ctx ParserContext, asts AstSlice) (AstSlice, error) {
-									return AstSlice{Ast{
-										Type:  AstType_String,
-										Value: ctx.Tag.(parseOptions).platformLinebreak,
-									}}, nil
-								},
+								platformLinebreakTransformer,
 							),
 							CharClassN(cc, "\\"),
 						),
