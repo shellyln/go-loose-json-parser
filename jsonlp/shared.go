@@ -358,7 +358,7 @@ func dateValue() ParserFn {
 func dateTimeValue() ParserFn {
 	return Trans(
 		FlatGroup(
-			extra.DateTimeStr(),
+			dateTimeStr(),
 			extra.UnicodeWordBoundary(),
 		),
 		extra.ParseDateTime,

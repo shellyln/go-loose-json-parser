@@ -958,3 +958,89 @@ func TestJsonParse3(t *testing.T) {
 
 	runMatrixParse(t, tests)
 }
+
+func TestJsonParse4(t *testing.T) {
+	tests := []testMatrixItem{{
+		name:    "j4-1a",
+		args:    args{s: `2021-12-31T23:47:59.123456789Z`, interop: jsonlp.Interop_None},
+		want:    time.Date(2021, time.December, 31, 23, 47, 59, 123456789, time.UTC),
+		wantErr: false,
+	}, {
+		name:    "j4-2a",
+		args:    args{s: `2021-12-31T23:47:59.123456789+09:00`, interop: jsonlp.Interop_None},
+		want:    time.Date(2021, time.December, 31, 23, 47, 59, 123456789, time.FixedZone("JST", int((9*time.Hour).Seconds()))).UTC(),
+		wantErr: false,
+	}, {
+		name:    "j4-3a",
+		args:    args{s: `2021-12-31 23:47:59.123456789Z`, interop: jsonlp.Interop_None},
+		want:    time.Date(2021, time.December, 31, 23, 47, 59, 123456789, time.UTC),
+		wantErr: false,
+	}, {
+		name:    "j4-4a",
+		args:    args{s: `2021-12-31 23:47:59.123456789+09:00`, interop: jsonlp.Interop_None},
+		want:    time.Date(2021, time.December, 31, 23, 47, 59, 123456789, time.FixedZone("JST", int((9*time.Hour).Seconds()))).UTC(),
+		wantErr: false,
+	}, {
+		name:    "j4-5a",
+		args:    args{s: `2021-12-31T23:47:59.123456789`, interop: jsonlp.Interop_None},
+		want:    time.Date(2021, time.December, 31, 23, 47, 59, 123456789, time.UTC),
+		wantErr: false,
+	}, {
+		name:    "j4-6a",
+		args:    args{s: `2021-12-31 23:47:59.123456789`, interop: jsonlp.Interop_None},
+		want:    time.Date(2021, time.December, 31, 23, 47, 59, 123456789, time.UTC),
+		wantErr: false,
+	}, {
+		name:    "j4-7a",
+		args:    args{s: `[2021-12-31T23:47:59.123456789,0]`, interop: jsonlp.Interop_None},
+		want:    []interface{}{time.Date(2021, time.December, 31, 23, 47, 59, 123456789, time.UTC), float64(0)},
+		wantErr: false,
+	}, {
+		name:    "j4-8a",
+		args:    args{s: `[2021-12-31 23:47:59.123456789,0]`, interop: jsonlp.Interop_None},
+		want:    []interface{}{time.Date(2021, time.December, 31, 23, 47, 59, 123456789, time.UTC), float64(0)},
+		wantErr: false,
+	}, {
+		name:    "j4-9a",
+		args:    args{s: `2021-12-31T23:47:59.1Z`, interop: jsonlp.Interop_None},
+		want:    time.Date(2021, time.December, 31, 23, 47, 59, 100000000, time.UTC),
+		wantErr: false,
+	}, {
+		name:    "j4-10a",
+		args:    args{s: `2021-12-31T23:47:59Z`, interop: jsonlp.Interop_None},
+		want:    time.Date(2021, time.December, 31, 23, 47, 59, 0, time.UTC),
+		wantErr: false,
+	}, {
+		name:    "j4-11a",
+		args:    args{s: `2021-12-31T23:47Z`, interop: jsonlp.Interop_None},
+		want:    time.Date(2021, time.December, 31, 23, 47, 0, 0, time.UTC),
+		wantErr: false,
+	}, {
+		name:    "j4-12a",
+		args:    args{s: `2021-12-31`, interop: jsonlp.Interop_None},
+		want:    time.Date(2021, time.December, 31, 0, 0, 0, 0, time.UTC),
+		wantErr: false,
+	}, {
+		name:    "j4-13a",
+		args:    args{s: `23:47:59.123456789`, interop: jsonlp.Interop_None},
+		want:    time.Date(1970, time.January, 1, 23, 47, 59, 123456789, time.UTC),
+		wantErr: false,
+	}, {
+		name:    "j4-14a",
+		args:    args{s: `23:47:59.1`, interop: jsonlp.Interop_None},
+		want:    time.Date(1970, time.January, 1, 23, 47, 59, 100000000, time.UTC),
+		wantErr: false,
+	}, {
+		name:    "j4-15a",
+		args:    args{s: `23:47:59`, interop: jsonlp.Interop_None},
+		want:    time.Date(1970, time.January, 1, 23, 47, 59, 0, time.UTC),
+		wantErr: false,
+	}, {
+		name:    "j4-16a",
+		args:    args{s: `23:47`, interop: jsonlp.Interop_None},
+		want:    time.Date(1970, time.January, 1, 23, 47, 0, 0, time.UTC),
+		wantErr: false,
+	}}
+
+	runMatrixParse(t, tests)
+}

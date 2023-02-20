@@ -17,4 +17,5 @@ const (
 	TomlArrayOfTable  = "TomlArrayOfTable"
 	NaN               = "NaN"
 	Inf               = "Inf"
+	DateTimeStr       = "DateTimeStr"
 )
