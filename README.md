@@ -135,12 +135,12 @@ type response struct {
 }
 
 func main() {
-    parsed, err := jsonlp.Parse(`{
+    parsed, err := jsonlp.ParseJSON(`{
         // comment
         config: {
             addr: '127.0.0.1',
         }
-    }`, jsonlp.Interop_None)
+    }`, jsonlp.Linebreak_Lf, jsonlp.Interop_None)
 
     if err != nil {
         fmt.Printf("Parse: error = %v\n", err)
