@@ -1,5 +1,10 @@
 # Changelog
 
+# v0.0.18
+* Added support for platform-dependent line breaks.
+* [Breaking change] Change function name `Parse` -> `ParseJSON`.
+* [Breaking change] Change `ParseJSON`, `ParseTOML` signatures.
+
 # v0.0.17
 * Added Datetime formats.
   * Datetime format with date and time delimited by space (RFC 3339 section 5.6). e.g. `2006-01-02 15:04:05Z`
