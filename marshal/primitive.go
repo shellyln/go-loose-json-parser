@@ -30,6 +30,9 @@ func unmarshalInt(rvFrom, rvTo reflect.Value, ctx *marshalContext) error {
 		}
 	case reflect.String:
 		v := rvFrom.String()
+		if v == "" {
+			return nil
+		}
 		if z, err := strconv.ParseInt(v, 10, 64); err != nil {
 			return err
 		} else {
@@ -61,6 +64,9 @@ func unmarshalUint(rvFrom, rvTo reflect.Value, ctx *marshalContext) error {
 		}
 	case reflect.String:
 		v := rvFrom.String()
+		if v == "" {
+			return nil
+		}
 		if z, err := strconv.ParseUint(v, 10, 64); err != nil {
 			return err
 		} else {
@@ -141,6 +147,9 @@ func unmarshalFloat(rvFrom, rvTo reflect.Value, ctx *marshalContext) error {
 		}
 	case reflect.String:
 		v := rvFrom.String()
+		if v == "" {
+			return nil
+		}
 		if z, err := strconv.ParseFloat(v, 64); err != nil {
 			return err
 		} else {
@@ -231,6 +240,9 @@ func unmarshalComplex(rvFrom, rvTo reflect.Value, ctx *marshalContext) error {
 		}
 	case reflect.String:
 		v := rvFrom.String()
+		if v == "" {
+			return nil
+		}
 		if z, err := strconv.ParseComplex(v, 64); err != nil {
 			return err
 		} else {
@@ -277,6 +289,9 @@ func unmarshalBool(rvFrom, rvTo reflect.Value, ctx *marshalContext) error {
 		rvTo.SetBool(rvFrom.Bool())
 	case reflect.String:
 		v := rvFrom.String()
+		if v == "" {
+			return nil
+		}
 		if z, err := strconv.ParseBool(v); err != nil {
 			return err
 		} else {

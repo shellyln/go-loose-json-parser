@@ -79,3 +79,189 @@ func TestTag2(t *testing.T) {
 		t.Errorf("dst: %v, want: %v\n", dst, want)
 	}
 }
+
+func TestZeroOrNull1(t *testing.T) {
+	type s1 struct {
+		Foo int  `json:"foo"`
+		Bar *int `json:"bar"`
+	}
+
+	parsed, err := jsonlp.Parse(`{
+        foo: null,
+        bar: null,
+    }`, jsonlp.Interop_None)
+
+	if err != nil {
+		t.Errorf("Parse: error = %v\n", err)
+		return
+	}
+
+	var dst s1
+	if err := marshal.Unmarshal(parsed, &dst, nil); err != nil {
+		t.Errorf("Unmarshal: error = %v\n", err)
+		return
+	}
+
+	want := s1{
+		Foo: 0,
+		Bar: nil,
+	}
+	if !reflect.DeepEqual(dst, want) {
+		t.Errorf("dst: %v, want: %v\n", dst, want)
+	}
+}
+
+func TestZeroOrNull2(t *testing.T) {
+	type s1 struct {
+		Foo int `json:"foo"`
+		Bar int `json:"bar"`
+	}
+
+	parsed, err := jsonlp.Parse(`{
+        foo: "",
+        bar: "1",
+    }`, jsonlp.Interop_None)
+
+	if err != nil {
+		t.Errorf("Parse: error = %v\n", err)
+		return
+	}
+
+	var dst s1
+	if err := marshal.Unmarshal(parsed, &dst, nil); err != nil {
+		t.Errorf("Unmarshal: error = %v\n", err)
+		return
+	}
+
+	want := s1{
+		Foo: 0,
+		Bar: 1,
+	}
+	if !reflect.DeepEqual(dst, want) {
+		t.Errorf("dst: %v, want: %v\n", dst, want)
+	}
+}
+
+func TestZeroOrNull3(t *testing.T) {
+	type s1 struct {
+		Foo uint `json:"foo"`
+		Bar uint `json:"bar"`
+	}
+
+	parsed, err := jsonlp.Parse(`{
+        foo: "",
+        bar: "1",
+    }`, jsonlp.Interop_None)
+
+	if err != nil {
+		t.Errorf("Parse: error = %v\n", err)
+		return
+	}
+
+	var dst s1
+	if err := marshal.Unmarshal(parsed, &dst, nil); err != nil {
+		t.Errorf("Unmarshal: error = %v\n", err)
+		return
+	}
+
+	want := s1{
+		Foo: 0,
+		Bar: 1,
+	}
+	if !reflect.DeepEqual(dst, want) {
+		t.Errorf("dst: %v, want: %v\n", dst, want)
+	}
+}
+
+func TestZeroOrNull4(t *testing.T) {
+	type s1 struct {
+		Foo float64 `json:"foo"`
+		Bar float64 `json:"bar"`
+	}
+
+	parsed, err := jsonlp.Parse(`{
+        foo: "",
+        bar: "1",
+    }`, jsonlp.Interop_None)
+
+	if err != nil {
+		t.Errorf("Parse: error = %v\n", err)
+		return
+	}
+
+	var dst s1
+	if err := marshal.Unmarshal(parsed, &dst, nil); err != nil {
+		t.Errorf("Unmarshal: error = %v\n", err)
+		return
+	}
+
+	want := s1{
+		Foo: 0,
+		Bar: 1,
+	}
+	if !reflect.DeepEqual(dst, want) {
+		t.Errorf("dst: %v, want: %v\n", dst, want)
+	}
+}
+
+func TestZeroOrNull5(t *testing.T) {
+	type s1 struct {
+		Foo complex128 `json:"foo"`
+		Bar complex128 `json:"bar"`
+	}
+
+	parsed, err := jsonlp.Parse(`{
+        foo: "",
+        bar: "1",
+    }`, jsonlp.Interop_None)
+
+	if err != nil {
+		t.Errorf("Parse: error = %v\n", err)
+		return
+	}
+
+	var dst s1
+	if err := marshal.Unmarshal(parsed, &dst, nil); err != nil {
+		t.Errorf("Unmarshal: error = %v\n", err)
+		return
+	}
+
+	want := s1{
+		Foo: 0,
+		Bar: 1,
+	}
+	if !reflect.DeepEqual(dst, want) {
+		t.Errorf("dst: %v, want: %v\n", dst, want)
+	}
+}
+
+func TestZeroOrNull6(t *testing.T) {
+	type s1 struct {
+		Foo bool `json:"foo"`
+		Bar bool `json:"bar"`
+	}
+
+	parsed, err := jsonlp.Parse(`{
+        foo: "",
+        bar: "1",
+    }`, jsonlp.Interop_None)
+
+	if err != nil {
+		t.Errorf("Parse: error = %v\n", err)
+		return
+	}
+
+	var dst s1
+	if err := marshal.Unmarshal(parsed, &dst, nil); err != nil {
+		t.Errorf("Unmarshal: error = %v\n", err)
+		return
+	}
+
+	want := s1{
+		Foo: false,
+		Bar: true,
+	}
+	if !reflect.DeepEqual(dst, want) {
+		t.Errorf("dst: %v, want: %v\n", dst, want)
+	}
+}
