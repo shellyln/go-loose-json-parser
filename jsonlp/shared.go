@@ -95,7 +95,7 @@ func commentLookAheadLb() ParserFn {
 
 func trueValue() ParserFn {
 	return FlatGroup(
-		erase(Seq("true")),
+		erase(SeqI("true")),
 		extra.UnicodeWordBoundary(),
 		Zero(trueAst),
 	)
@@ -103,7 +103,7 @@ func trueValue() ParserFn {
 
 func falseValue() ParserFn {
 	return FlatGroup(
-		erase(Seq("false")),
+		erase(SeqI("false")),
 		extra.UnicodeWordBoundary(),
 		Zero(falseAst),
 	)
@@ -118,7 +118,10 @@ func boolValue() ParserFn {
 
 func nullValue() ParserFn {
 	return FlatGroup(
-		erase(CharClass("null", "undefined")),
+		erase(First(
+			SeqI("null"),
+			CharClass("undefined", "None"),
+		)),
 		extra.UnicodeWordBoundary(),
 		Zero(nilAst),
 	)
@@ -130,7 +133,10 @@ func positiveInfinityValue(checkBoundary bool) ParserFn {
 	return FlatGroup(
 		erase(FlatGroup(
 			ZeroOrOnce(Seq("+")),
-			CharClass("Infinity", "inf"),
+			First(
+				SeqI("Infinity"),
+				SeqI("inf"),
+			),
 		)),
 		If(checkBoundary,
 			extra.UnicodeWordBoundary(),
@@ -160,7 +166,10 @@ func negativeInfinityValue(checkBoundary bool) ParserFn {
 	nilParser := Zero(nilAst)
 	infParser := Zero(negativeInfinityAst)
 	return FlatGroup(
-		erase(CharClass("-Infinity", "-inf")),
+		erase(First(
+			SeqI("-Infinity"),
+			SeqI("-inf"),
+		)),
 		If(checkBoundary,
 			extra.UnicodeWordBoundary(),
 			Zero(),
@@ -189,7 +198,10 @@ func nanValue(checkBoundary bool) ParserFn {
 	nilParser := Zero(nilAst)
 	nanParser := Zero(nanAst)
 	return FlatGroup(
-		erase(CharClass("+nan", "-nan", "NaN", "nan")),
+		erase(FlatGroup(
+			ZeroOrOnce(CharClass("+", "-")),
+			SeqI("nan"),
+		)),
 		If(checkBoundary,
 			extra.UnicodeWordBoundary(),
 			Zero(),

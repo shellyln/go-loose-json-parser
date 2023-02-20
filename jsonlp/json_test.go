@@ -50,6 +50,11 @@ func TestJsonParse1(t *testing.T) {
 		want:    nil,
 		wantErr: false,
 	}, {
+		name:    "j1-1a2",
+		args:    args{s: `NULL`},
+		want:    nil,
+		wantErr: false,
+	}, {
 		name:    "j1-1b",
 		args:    args{s: ` null `},
 		want:    nil,
@@ -60,13 +65,23 @@ func TestJsonParse1(t *testing.T) {
 		want:    nil,
 		wantErr: false,
 	}, {
-		name:    "j1-3",
+		name:    "j1-3a",
 		args:    args{s: `true`},
 		want:    true,
 		wantErr: false,
 	}, {
-		name:    "j1-4",
+		name:    "j1-3a2",
+		args:    args{s: `TRUE`},
+		want:    true,
+		wantErr: false,
+	}, {
+		name:    "j1-4a",
 		args:    args{s: `false`},
+		want:    false,
+		wantErr: false,
+	}, {
+		name:    "j1-4a2",
+		args:    args{s: `FALSE`},
 		want:    false,
 		wantErr: false,
 	}, {
@@ -379,13 +394,43 @@ func TestJsonParse1(t *testing.T) {
 		want:    math.Inf(1),
 		wantErr: false,
 	}, {
+		name:    "j1-6a2",
+		args:    args{s: `inf`},
+		want:    math.Inf(1),
+		wantErr: false,
+	}, {
+		name:    "j1-6a3",
+		args:    args{s: `INF`},
+		want:    math.Inf(1),
+		wantErr: false,
+	}, {
 		name:    "j1-6b",
 		args:    args{s: `+Infinity`},
 		want:    math.Inf(1),
 		wantErr: false,
 	}, {
+		name:    "j1-6b2",
+		args:    args{s: `+inf`},
+		want:    math.Inf(1),
+		wantErr: false,
+	}, {
+		name:    "j1-6b3",
+		args:    args{s: `+INF`},
+		want:    math.Inf(1),
+		wantErr: false,
+	}, {
 		name:    "j1-6c",
 		args:    args{s: `-Infinity`},
+		want:    math.Inf(-1),
+		wantErr: false,
+	}, {
+		name:    "j1-6c2",
+		args:    args{s: `-inf`},
+		want:    math.Inf(-1),
+		wantErr: false,
+	}, {
+		name:    "j1-6c3",
+		args:    args{s: `-INF`},
 		want:    math.Inf(-1),
 		wantErr: false,
 	}, {
@@ -741,6 +786,11 @@ func TestJsonParse2(t *testing.T) {
 	tests := []testMatrixItem{{
 		name:    "j2-1a",
 		args:    args{s: `NaN`, interop: jsonlp.Interop_JSON},
+		want:    map[string]interface{}{"nan": true},
+		wantErr: false,
+	}, {
+		name:    "j2-1a2",
+		args:    args{s: `nan`, interop: jsonlp.Interop_JSON},
 		want:    map[string]interface{}{"nan": true},
 		wantErr: false,
 	}, {
