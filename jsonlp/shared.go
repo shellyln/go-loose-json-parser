@@ -10,8 +10,9 @@ import (
 type InteropType int
 
 type parseOptions struct {
-	interop InteropType
-	isTOML  bool
+	interop           InteropType
+	platformLinebreak string
+	isTOML            bool
 }
 
 const (

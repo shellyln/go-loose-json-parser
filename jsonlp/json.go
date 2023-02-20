@@ -167,7 +167,11 @@ func jsonDocument() ParserFn {
 // nil | []any | map[string]any | float64 | int64 | uint64 | complex128 | string | bool | time.Time
 func Parse(s string, interop InteropType) (interface{}, error) {
 	ctx := *NewStringParserContext(s)
-	ctx.Tag = parseOptions{interop: interop}
+	ctx.Tag = parseOptions{
+		interop:           interop,
+		platformLinebreak: "\n",
+		isTOML:            false,
+	}
 
 	out, err := jsonParser(ctx)
 	if err != nil {

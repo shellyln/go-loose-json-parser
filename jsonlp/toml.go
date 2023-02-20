@@ -141,7 +141,11 @@ func tomlDocument() ParserFn {
 // nil | []any | map[string]any | float64 | int64 | uint64 | complex128 | string | bool | time.Time
 func ParseTOML(s string, interop InteropType) (interface{}, error) {
 	ctx := *NewStringParserContext(s)
-	ctx.Tag = parseOptions{interop: interop, isTOML: true}
+	ctx.Tag = parseOptions{
+		interop:           interop,
+		platformLinebreak: "\n",
+		isTOML:            true,
+	}
 
 	out, err := tomlParser(ctx)
 	if err != nil {

@@ -649,6 +649,30 @@ The quick brown \
 			"str4":   `"That," she said, "is still pointless."`,
 		},
 		wantErr: false,
+	}, {
+		name: "t3-4a",
+		args: args{s: `
+		str1 = '''
+The quick brown
+fox jumps over
+the lazy dog.'''
+		`},
+		want: map[string]interface{}{
+			"str1": "The quick brown\nfox jumps over\nthe lazy dog.",
+		},
+		wantErr: false,
+	}, {
+		name: "t3-5a",
+		args: args{s: `
+		str1 = """
+The quick brown
+fox jumps over
+the lazy dog."""
+		`},
+		want: map[string]interface{}{
+			"str1": "The quick brown\nfox jumps over\nthe lazy dog.",
+		},
+		wantErr: false,
 	}}
 
 	runMatrixTomlParse(t, tests)

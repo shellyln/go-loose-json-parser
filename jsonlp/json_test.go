@@ -777,6 +777,17 @@ func TestJsonParse1(t *testing.T) {
 		args:    args{s: `Infinity - -Infinity_i`},
 		want:    complex(math.Inf(1), math.Inf(1)),
 		wantErr: false,
+	}, {
+		name: "j1-15a1",
+		args: args{s: `{
+		str1: ` + "`" + `The quick brown
+fox jumps over
+the lazy dog.` + "`" + `
+		}`},
+		want: map[string]interface{}{
+			"str1": "The quick brown\nfox jumps over\nthe lazy dog.",
+		},
+		wantErr: false,
 	}}
 
 	runMatrixParse(t, tests)
