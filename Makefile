@@ -25,6 +25,7 @@ GOTIDY      := $(GOCMD) mod tidy
 GOCLEAN     := $(GOCMD) clean
 GOTEST      := $(GOCMD) test
 GOVET       := $(GOCMD) vet
+GOSHADOW    := $(GOPATH)/bin/shadow
 GOLINT      := $(GOPATH)/bin/staticcheck
 TINYGOCMD   := tinygo
 SRCS        :=
@@ -133,6 +134,8 @@ cover:
 lint:
 	@echo "Run go vet..."
 	$(GOVET) ./...
+	@echo "Run shadow..."
+	$(GOVET) -vettool="$(GOSHADOW)" ./...
 	@echo "Run staticcheck..."
 	$(GOLINT) ./...
 
@@ -144,6 +147,7 @@ wasm:
 	$(GOBUILD) \
 	    -a -tags wasm \
 	    -trimpath \
+	    -buildvcs=false \
 	    $(LDFLAGS) \
 	    -o $(BIN_WASM) $(TARGET_WASM)
 
