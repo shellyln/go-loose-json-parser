@@ -1,5 +1,6 @@
 # Loose JSON + TOML parsers for Go
-Super loose JSON + TOML parsers and unmarshaller for Go.
+Super loose JSON + TOML parsers and unmarshaller for Go.  
+JSONC and JSON5 can also be read.
 
 [![Test](https://github.com/shellyln/go-loose-json-parser/actions/workflows/test.yml/badge.svg)](https://github.com/shellyln/go-loose-json-parser/actions/workflows/test.yml)
 [![release](https://img.shields.io/github/v/release/shellyln/go-loose-json-parser)](https://github.com/shellyln/go-loose-json-parser/releases)
