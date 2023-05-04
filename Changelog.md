@@ -1,5 +1,8 @@
 # Changelog
 
+# v0.0.19
+* Edit package comments.
+
 # v0.0.18
 * Added support for platform-dependent line breaks.
 * [Breaking change] Change function name `Parse` -> `ParseJSON`.
